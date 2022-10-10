@@ -1,8 +1,18 @@
 import cv2
 import cv2 as cv
 
-def openCamera():
+def saveVideoFromCamera():
     capture = cv.VideoCapture(0)
+
+    fourcc = cv.VideoWriter_fourcc(*"XVID")
+    nameVideo = "./video.avi"
+    output = cv.VideoWriter(nameVideo, fourcc, 20.0, (640, 480))
+
+    '''
+        TODO:
+            make it able to save more videos than one
+    '''
+
     if not capture.isOpened():
         print("can't open the camera!")
         exit()
@@ -12,12 +22,16 @@ def openCamera():
         if not ret:
             print("Can't receive frame (stream end?). Exiting ...")
             break
-        grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cv.imshow('frame', grayFrame)
+
+        # to save the video
+        output.write(frame)
+
+        cv.imshow('img', frame)
 
         key = cv.waitKey(1)
         if key == ord("q"):
             break
 
     capture.release()
+    output.release()
     cv.destroyAllWindows()
