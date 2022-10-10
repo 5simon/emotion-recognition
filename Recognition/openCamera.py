@@ -2,16 +2,15 @@ import cv2
 import cv2 as cv
 
 def saveVideoFromCamera():
+    # open camera
     capture = cv.VideoCapture(0)
 
+    # set suffix
     fourcc = cv.VideoWriter_fourcc(*"XVID")
-    nameVideo = "./video.avi"
-    output = cv.VideoWriter(nameVideo, fourcc, 20.0, (640, 480))
 
-    '''
-        TODO:
-            make it able to save more videos than one
-    '''
+    # output video with (name, suffix, framrate, size of the image)
+    nameVideo = "./video.avi"
+    outputVideo = cv.VideoWriter(nameVideo, fourcc, 20.0, (640, 480))
 
     if not capture.isOpened():
         print("can't open the camera!")
@@ -24,7 +23,7 @@ def saveVideoFromCamera():
             break
 
         # to save the video
-        output.write(frame)
+        outputVideo.write(frame)
 
         cv.imshow('img', frame)
 
@@ -32,6 +31,7 @@ def saveVideoFromCamera():
         if key == ord("q"):
             break
 
+    # close the videos
     capture.release()
-    output.release()
+    outputVideo.release()
     cv.destroyAllWindows()
