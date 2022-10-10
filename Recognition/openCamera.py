@@ -1,3 +1,4 @@
+import cv2
 import cv2 as cv
 
 def openCamera():
@@ -11,14 +12,12 @@ def openCamera():
         if not ret:
             print("Can't receive frame (stream end?). Exiting ...")
             break
-        cv.imshow('frame', frame)
+        grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        cv.imshow('frame', grayFrame)
 
-        key = cv.waitKey(0)
+        key = cv.waitKey(1)
         if key == ord("q"):
             break
 
     capture.release()
     cv.destroyAllWindows()
-
-
-
