@@ -5,8 +5,8 @@ each detail of the implementation will be done in a separate branch.
 Happy coding :grin:
 
 # tools
-| Tesnorflow | ``` pip install tensorflow ```| 
-| OpenCv |``` pip install opencv-python ``` |
+* Tesnorflow         ``` pip install tensorflow ``` 
+* OpenCv             ``` pip install opencv-python ``` 
 
 # uninstall package
 
