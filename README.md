@@ -2,7 +2,7 @@
 this project is a bachelor thesis in  **TU Bergakademie Freiberg**
 
 # tools
-* Tesnorflow
+* Tesnorflow ``` pip install tensorflow ``` 
 * OpenCv 
 
 # Install Tesnorflow
