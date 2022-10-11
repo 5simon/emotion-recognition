@@ -1,5 +1,5 @@
 # Examination of Several Neural Networks for Facial Emotion Recognition
-this project is a bachelor thesis in  **TU Bergakademie Freiberg**. in this project emotions will be recognized through the face in a image
+this project is a bachelor thesis in  **TU Bergakademie Freiberg**. 
 
 # tools
 * Tesnorflow ``` pip install tensorflow ``` 
