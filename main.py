@@ -1,8 +1,8 @@
 import tensorflow as tf
-import cv2 as cv
-from Recognition.saveImageAndVideo import saveVideoAndImageFromCamera
+from Recognition.camera import *
 
 print("tensorflow is installed and has the version: ", tf.__version__)
-print("\ntensorflow is installed and has the version: ", cv.__version__)
+print("\nopencv is installed and has the version: ", cv.__version__)
 
-saveVideoAndImageFromCamera()
+#saveVideoAndImageFromCamera()
+faceRecognition()
