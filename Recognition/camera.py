@@ -60,8 +60,15 @@ def faceRecognition():
         raise IOError("unable to load haarcascade_frontalface_default.xml")
     eyeCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye_tree_eyeglasses.xml')
     if eyeCascade.empty():
-        raise IOError("unable to load haarcascade_eye.xml")
+        raise IOError("unable to load haarcascade_eye_tree_eyeglasses.xml")
 
+    mouthCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_mouth.xml')
+    if eyeCascade.empty():
+        raise IOError("unable to load haarcascade_mcs_mouth.xml")
+
+    noseCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
+    if eyeCascade.empty():
+        raise IOError("unable to load haarcascade_mcs_nose.xml")
     capture = cv.VideoCapture(0)
 
     while capture.isOpened():
@@ -74,7 +81,7 @@ def faceRecognition():
         faceDetect = faceCascade.detectMultiScale(
             grayImage,
             scaleFactor = 1.1,
-            minNeighbors = 5,
+            minNeighbors = 4,
             minSize = (30, 30),
         )
         eyeDetect = eyeCascade.detectMultiScale(
@@ -83,12 +90,30 @@ def faceRecognition():
             minNeighbors = 5,
             minSize = (30, 30),
         )
-        # coordinate for rectangle for eye detection
+        mouthDetect = mouthCascade.detectMultiScale(
+            grayImage,
+            scaleFactor = 3,
+            minNeighbors = 5,
+            minSize = (30, 30),
+        )
+        noseDetect = noseCascade.detectMultiScale(
+            grayImage,
+            scaleFactor = 1.1,
+            minNeighbors = 11,
+            minSize = (30, 30),
+        )
+        # coordinate for rectangle for face detection :: green
+        for (x, y, w, h) in faceDetect:
+            cv.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # coordinate for rectangle for eye detection :: red
         for (x, y, w, h) in eyeDetect:
             cv.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
-        # coordinate for rectangle for face detection
-        for (x, y, w, h) in faceDetect:
-            cv.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        # coordinate for rectangle for mouth detection :: blue
+        for (x, y, w, h) in mouthDetect:
+            cv.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        # coordinate for rectangle for nose detection :: black
+        for (x, y, w, h) in noseDetect:
+            cv.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 0), 2)
 
         cv.imshow("face recognition", frame)
         key = cv.waitKey(1)
