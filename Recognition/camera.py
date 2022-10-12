@@ -58,10 +58,9 @@ def faceRecognition():
     faceCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
     if faceCascade.empty():
         raise IOError("unable to load haarcascade_frontalface_default.xml")
-    eyeCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye.xml')
+    eyeCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye_tree_eyeglasses.xml')
     if eyeCascade.empty():
         raise IOError("unable to load haarcascade_eye.xml")
-    #mouthCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_smile.xml')
 
     capture = cv.VideoCapture(0)
 
@@ -72,18 +71,25 @@ def faceRecognition():
             break
         grayImage = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
-        faceDetect = faceCascade.detectMultiScale(grayImage, 1.1)
-        eyeDetect = eyeCascade.detectMultiScale(grayImage, 1.1)
-        #mouthDetect = mouthCascade.detectMultiScale(grayImage, 1.1)
-
+        faceDetect = faceCascade.detectMultiScale(
+            grayImage,
+            scaleFactor = 1.1,
+            minNeighbors = 5,
+            minSize = (30, 30),
+        )
+        eyeDetect = eyeCascade.detectMultiScale(
+            grayImage,
+            scaleFactor = 1.1,
+            minNeighbors = 5,
+            minSize = (30, 30),
+        )
         # coordinate for rectangle for eye detection
         for (x, y, w, h) in eyeDetect:
             cv.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
         # coordinate for rectangle for face detection
         for (x, y, w, h) in faceDetect:
             cv.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        # for (x, y, w, h) in mouthDetect:
-        #     cv.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+
         cv.imshow("face recognition", frame)
         key = cv.waitKey(1)
         if key == ord('q'):
