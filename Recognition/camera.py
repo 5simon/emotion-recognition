@@ -56,7 +56,11 @@ def saveVideoAndImageFromCamera():
 
 def faceRecognition():
     faceCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
+    if faceCascade.empty():
+        raise IOError("unable to load haarcascade_frontalface_default.xml")
     eyeCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye.xml')
+    if eyeCascade.empty():
+        raise IOError("unable to load haarcascade_eye.xml")
     #mouthCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_smile.xml')
 
     capture = cv.VideoCapture(0)
