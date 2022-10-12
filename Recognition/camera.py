@@ -57,6 +57,7 @@ def saveVideoAndImageFromCamera():
 def faceRecognition():
     faceCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
     eyeCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye.xml')
+    #mouthCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_smile.xml')
 
     capture = cv.VideoCapture(0)
 
@@ -69,11 +70,16 @@ def faceRecognition():
 
         faceDetect = faceCascade.detectMultiScale(grayImage, 1.1)
         eyeDetect = eyeCascade.detectMultiScale(grayImage, 1.1)
+        #mouthDetect = mouthCascade.detectMultiScale(grayImage, 1.1)
+
+        # coordinate for rectangle for eye detection
         for (x, y, w, h) in eyeDetect:
             cv.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
+        # coordinate for rectangle for face detection
         for (x, y, w, h) in faceDetect:
             cv.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
+        # for (x, y, w, h) in mouthDetect:
+        #     cv.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
         cv.imshow("face recognition", frame)
         key = cv.waitKey(1)
         if key == ord('q'):
