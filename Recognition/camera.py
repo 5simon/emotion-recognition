@@ -1,7 +1,10 @@
-import cv2 as cv
 import os
 from datetime import datetime
+
+import cv2 as cv
 import numpy as np
+
+
 def saveVideoAndImageFromCamera():
     path = r'testImages'
     pathExist = os.path.exists(path)
@@ -56,13 +59,14 @@ def saveVideoAndImageFromCamera():
         if wait == 500:
             filename = 'frame_' + str(imageIndex) + '.jpg'
             cv.imwrite(filename, frame)
-            imageIndex= imageIndex + 1
-            wait= 0
+            imageIndex = imageIndex + 1
+            wait = 0
 
     # close the videos
     capture.release()
     outputVideo.release()
     cv.destroyAllWindows()
+
 
 def faceRecognition():
     faceCascade = cv.CascadeClassifier('venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
@@ -95,27 +99,27 @@ def faceRecognition():
         '''
         faceDetect = faceCascade.detectMultiScale(
             grayImage,
-            scaleFactor = 1.1,
-            minNeighbors = 4,
-            minSize = (30, 30),
+            scaleFactor=1.1,
+            minNeighbors=4,
+            minSize=(30, 30),
         )
         eyeDetect = eyeCascade.detectMultiScale(
             grayImage,
-            scaleFactor = 1.1,
-            minNeighbors = 5,
-            minSize = (30, 30),
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30),
         )
         mouthDetect = mouthCascade.detectMultiScale(
             grayImage,
-            scaleFactor = 3,
-            minNeighbors = 5,
-            minSize = (30, 30),
+            scaleFactor=3,
+            minNeighbors=5,
+            minSize=(30, 30),
         )
         noseDetect = noseCascade.detectMultiScale(
             grayImage,
-            scaleFactor = 1.1,
-            minNeighbors = 11,
-            minSize = (30, 30),
+            scaleFactor=1.1,
+            minNeighbors=11,
+            minSize=(30, 30),
         )
         '''
             for the mask as circle center_cordinate as faceCoordinate and radius have to be declared
@@ -167,4 +171,3 @@ def faceRecognition():
             break
     capture.release()
     cv.destroyAllWindows()
-
