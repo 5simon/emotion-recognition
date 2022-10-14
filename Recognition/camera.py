@@ -47,7 +47,10 @@ class Camera:
             # q for quit
             if self.key == ord("q"):
                 print("Exiting....")
+                return False
                 break
+            else:
+                return True
 
     def openPath(self):
         pathName = r'testImages'
@@ -63,11 +66,11 @@ class Camera:
         wait = 0
         fourcc = cv.VideoWriter_fourcc(*"XVID")
         nameVideo = "./video.avi"
-        while self.checkCamera:
+        self.openCamere()
+        while self.openCamere():
+
             self.outputVideo = cv.VideoWriter(nameVideo, fourcc, 20.0, (640, 480))
             self.outputVideo.write(self.frame)
-
-            # cv.imshow('img', self.frame)
 
             wait = wait + 100
             if wait == 500:
@@ -75,6 +78,7 @@ class Camera:
                 cv.imwrite(filename, self.frame)
                 imageIndex = imageIndex + 1
                 wait = 0
+        self.closeCamera()
 
     def faceRecognition(self):
         faceCascade = cv.CascadeClassifier(
