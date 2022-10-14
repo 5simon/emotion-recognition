@@ -62,11 +62,11 @@ class Camera:
             raise IOError("unable to load haarcascade_eye_tree_eyeglasses.xml")
 
         mouthCascade = cv.CascadeClassifier('/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_mouth.xml')
-        if eyeCascade.empty():
+        if mouthCascade.empty():
             raise IOError("unable to load haarcascade_mcs_mouth.xml")
 
         noseCascade = cv.CascadeClassifier('/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
-        if eyeCascade.empty():
+        if noseCascade.empty():
             raise IOError("unable to load haarcascade_mcs_nose.xml")
 
         capture = cv.VideoCapture(0)
@@ -165,7 +165,7 @@ class Camera:
         self.openPath()
         imageIndex = 0
         wait = 0
-        #self.openCamere()
+        self.openCamere()
         self.faceRecognition()
         while self.openCamere():
             wait = wait + 100
