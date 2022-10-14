@@ -14,7 +14,6 @@ class Camera:
     frame = []
     key = 0
     # video
-
     outputVideo = ""
 
     def __init__(self):
@@ -59,19 +58,13 @@ class Camera:
             os.makedirs(pathName)
         os.chdir(pathName)
 
-    def saveVideoAndImageFromCamera(self):
+    def saveImageFromCamera(self):
         self.openPath()
 
         imageIndex = 0
         wait = 0
-        fourcc = cv.VideoWriter_fourcc(*"XVID")
-        nameVideo = "./video.avi"
         self.openCamere()
         while self.openCamere():
-
-            self.outputVideo = cv.VideoWriter(nameVideo, fourcc, 20.0, (640, 480))
-            self.outputVideo.write(self.frame)
-
             wait = wait + 100
             if wait == 500:
                 filename = 'frame_' + str(imageIndex) + '.jpg'
