@@ -9,7 +9,7 @@ class Camera:
     """
         variables
     """
-    capture = cv.VideoCapture(0)
+    capture = cv.VideoCapture(0, cv.CAP_GSTREAMER)
     checkCamera = capture.isOpened()
     frame = []
     key = 0
@@ -19,6 +19,7 @@ class Camera:
 
     def __init__(self):
         print("Camera processing...")
+
 
     def closeCamera(self):
         if self.capture:
@@ -69,7 +70,7 @@ class Camera:
         if noseCascade.empty():
             raise IOError("unable to load haarcascade_mcs_nose.xml")
 
-        capture = cv.VideoCapture(0)
+        capture = cv.VideoCapture(0, cv.CAP_GSTREAMER)
         while capture.isOpened():
             ret, frame = capture.read()
             if not ret:
@@ -166,7 +167,7 @@ class Camera:
         imageIndex = 0
         wait = 0
         self.openCamere()
-        self.faceRecognition()
+        #self.faceRecognition()
         while self.openCamere():
             wait = wait + 100
             if wait == 500:

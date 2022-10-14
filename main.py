@@ -11,7 +11,7 @@ print("\nopencv is installed and has the version: ", cv.__version__)
 
 cameraWindow = Camera()
 #cameraWindow.openCamere()
-#cameraWindow.faceRecognition()
-cameraWindow.saveImageFromCamera()
+cameraWindow.faceRecognition()
+#cameraWindow.saveImageFromCamera()
 #cameraWindow.closeCamera()
 
