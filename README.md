@@ -8,7 +8,6 @@ Happy coding :grin:
 * OpenCv             ``` pip install opencv-python ``` 
 
 # uninstall package
-
 ```
 pip uninstall "package name"
 
