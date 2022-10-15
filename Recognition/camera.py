@@ -19,6 +19,9 @@ class Camera:
     def __init__(self):
         print("Camera processing...")
 
+    """
+        * closeCamera closes all windows if the window is Existing 
+    """
     def closeCamera(self):
         if self.capture:
             self.capture.release()
@@ -28,6 +31,9 @@ class Camera:
 
         print("break all windows")
 
+    """
+        * openCamera opens the webCamera and during it will be the face detected
+    """
     def openCamere(self):
         if not self.checkCamera:
             print("can't open the camera!")
@@ -142,6 +148,9 @@ class Camera:
             else:
                 return True
 
+    """
+        * openPath opens the folder, in it the images will be saved to testing
+    """
     def openPath(self):
         pathName = r'testImages'
         pathExisting = os.path.exists(pathName)
@@ -149,12 +158,14 @@ class Camera:
             os.makedirs(pathName)
         os.chdir(pathName)
 
+    """
+        * saveImageFromCamera saves the images in the path
+    """
     def saveImageFromCamera(self):
         self.openPath()
         imageIndex = 0
         wait = 0
         self.openCamere()
-        # self.faceRecognition()
         while self.openCamere():
             wait = wait + 1
             if wait == 5:
