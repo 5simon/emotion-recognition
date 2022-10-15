@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 import cv2 as cv
 import numpy as np
@@ -9,7 +8,7 @@ class Camera:
     """
         variables
     """
-    capture = cv.VideoCapture(0, cv.CAP_GSTREAMER)
+    capture = cv.VideoCapture(0)
     checkCamera = capture.isOpened()
     frame = []
     key = 0
@@ -20,7 +19,6 @@ class Camera:
     def __init__(self):
         print("Camera processing...")
 
-
     def closeCamera(self):
         if self.capture:
             self.capture.release()
@@ -29,30 +27,11 @@ class Camera:
         cv.destroyAllWindows()
 
         print("break all windows")
+
     def openCamere(self):
         if not self.checkCamera:
             print("can't open the camera!")
             exit()
-
-        while self.checkCamera:
-            ret, self.frame = self.capture.read()
-            if not ret:
-                print("Can't receive frame (stream end?). Exiting ...")
-                break
-            font = cv.FONT_HERSHEY_PLAIN
-            cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
-            cv.imshow("Camera", self.frame)
-
-            self.key = cv.waitKey(100)
-            # q for quit
-            if self.key == ord("q"):
-                print("Exiting....")
-                return False
-                break
-            else:
-                return True
-
-    def faceRecognition(self):
         faceCascade = cv.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
         if faceCascade.empty():
@@ -62,21 +41,24 @@ class Camera:
         if eyeCascade.empty():
             raise IOError("unable to load haarcascade_eye_tree_eyeglasses.xml")
 
-        mouthCascade = cv.CascadeClassifier('/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_mouth.xml')
+        mouthCascade = cv.CascadeClassifier(
+            '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_mouth.xml')
         if mouthCascade.empty():
             raise IOError("unable to load haarcascade_mcs_mouth.xml")
 
-        noseCascade = cv.CascadeClassifier('/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
+        noseCascade = cv.CascadeClassifier(
+            '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
         if noseCascade.empty():
             raise IOError("unable to load haarcascade_mcs_nose.xml")
 
-        capture = cv.VideoCapture(0, cv.CAP_GSTREAMER)
-        while capture.isOpened():
-            ret, frame = capture.read()
+        while self.checkCamera:
+            ret, self.frame = self.capture.read()
             if not ret:
                 print("Can't receive frame (stream end?). Exiting ...")
                 break
-            grayImage = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+            # font = cv.FONT_HERSHEY_PLAIN
+            # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
+            grayImage = cv.cvtColor(self.frame, cv.COLOR_BGR2GRAY)
 
             '''
                 detecting features in face
@@ -87,24 +69,24 @@ class Camera:
                 minNeighbors=4,
                 minSize=(30, 30),
             )
-            # eyeDetect = eyeCascade.detectMultiScale(
-            #     grayImage,
-            #     scaleFactor=1.1,
-            #     minNeighbors=5,
-            #     minSize=(30, 30),
-            # )
-            # mouthDetect = mouthCascade.detectMultiScale(
-            #     grayImage,
-            #     scaleFactor=3,
-            #     minNeighbors=5,
-            #     minSize=(30, 30),
-            # )
-            # noseDetect = noseCascade.detectMultiScale(
-            #     grayImage,
-            #     scaleFactor=1.1,
-            #     minNeighbors=11,
-            #     minSize=(30, 30),
-            # )
+            eyeDetect = eyeCascade.detectMultiScale(
+                grayImage,
+                scaleFactor=1.1,
+                minNeighbors=5,
+                minSize=(30, 30),
+            )
+            mouthDetect = mouthCascade.detectMultiScale(
+                grayImage,
+                scaleFactor=3,
+                minNeighbors=5,
+                minSize=(30, 30),
+            )
+            noseDetect = noseCascade.detectMultiScale(
+                grayImage,
+                scaleFactor=1.1,
+                minNeighbors=11,
+                minSize=(30, 30),
+            )
             '''
                 for the mask as circle center_cordinate as faceCoordinate and radius have to be declared
             '''
@@ -112,7 +94,7 @@ class Camera:
 
             # coordinate for rectangle for face detection :: green
             for (x, y, w, h) in faceDetect:
-                cv.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 faceCoordinate = [x + w // 2, y + h // 2]
                 radius = h // 2
 
@@ -140,7 +122,7 @@ class Camera:
             '''
                black Background from numpy
             '''
-            blackBackground = np.zeros(frame.shape[:2], np.uint8)
+            blackBackground = np.zeros(self.frame.shape[:2], np.uint8)
             '''
                 create circle around the detected face
             '''
@@ -148,13 +130,18 @@ class Camera:
             '''
                 insert the circle to the frame
             '''
-            frameMasked = cv.bitwise_and(frame, frame, mask=blackBackground)
-            cv.imshow("face recognition", frameMasked)
-            key = cv.waitKey(1)
-            if key == ord('q'):
+            self.frameMasked = cv.bitwise_and(self.frame, self.frame, mask=blackBackground)
+            cv.imshow("Camera", self.frameMasked)
+
+            self.key = cv.waitKey(1)
+            # q for quit
+            if self.key == ord("q"):
+                print("Exiting....")
+                return False
                 break
-        capture.release()
-        cv.destroyAllWindows()
+            else:
+                return True
+
     def openPath(self):
         pathName = r'testImages'
         pathExisting = os.path.exists(pathName)
@@ -167,12 +154,12 @@ class Camera:
         imageIndex = 0
         wait = 0
         self.openCamere()
-        #self.faceRecognition()
+        # self.faceRecognition()
         while self.openCamere():
-            wait = wait + 100
-            if wait == 500:
+            wait = wait + 1
+            if wait == 5:
                 filename = 'frame_' + str(imageIndex) + '.jpg'
-                cv.imwrite(filename, self.frame)
+                cv.imwrite(filename, self.frameMasked)
                 imageIndex = imageIndex + 1
                 wait = 0
         self.closeCamera()
