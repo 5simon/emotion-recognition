@@ -10,7 +10,6 @@ print("\nopencv is installed and has the version: ", cv.__version__)
 # openCamere()
 
 cameraWindow = Camera()
-cameraWindow.openCamere()
 cameraWindow.saveImageFromCamera()
 #cameraWindow.closeCamera()
 
