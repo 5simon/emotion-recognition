@@ -167,8 +167,8 @@ class Camera:
         wait = 0
         self.openCamere()
         while self.openCamere():
-            wait = wait + 1
-            if wait == 5:
+            wait =1
+            if wait == 1:
                 filename = 'frame_' + str(imageIndex) + '.jpg'
                 cv.imwrite(filename, self.frameMasked)
                 imageIndex = imageIndex + 1
