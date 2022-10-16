@@ -15,10 +15,6 @@ Happy coding :grin:
 # Implementation
 just call *saveImageFromCamera()* in *main.py* from class *Camera*
 
-# result
-it look like this
- file:///home/simon/BA/emotion-recognition/testImages/frame_6.jpg
-
 # uninstall package
 ```
 pip uninstall "package name"
