@@ -91,13 +91,13 @@ class Camera:
         '''
             for the mask as circle center_cordinate as faceCoordinate and radius have to be declared
         '''
-        faceCoordinate, radius = [0, 0], 0
+        startPunkt, endPunkt = [0, 0], [0, 0]
 
         # coordinate for rectangle for face detection :: green
         for (x, y, w, h) in faceDetect:
             cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            faceCoordinate = [x + w // 2, y + h // 2]
-            radius = h // 2
+            startPunkt = x, y
+            endPunkt = x + w, y + h
 
         '''
             coordinate for rectangle for eye detection :: red 
@@ -122,7 +122,7 @@ class Camera:
         '''
             create circle around the detected face
         '''
-        cv.circle(blackBackground, faceCoordinate, radius, (255, 255, 255), -1)
+        cv.rectangle(blackBackground, startPunkt, endPunkt, (255, 255, 255), -1)
         '''
             insert the circle to the frame
         '''
@@ -141,7 +141,7 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.faceRecognition()
-            cv.imshow("Camera", self.frame)
+            cv.imshow("Camera", self.frameMasked)
 
             self.key = cv.waitKey(1)
             # q for quit
