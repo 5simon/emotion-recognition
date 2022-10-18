@@ -84,7 +84,7 @@ class Camera:
         )
         upperBodyDetect = upperBodyCascade.detectMultiScale(
             grayImage,
-            scaleFactor=1.1,
+            scaleFactor=1.01,
             minNeighbors=11,
             minSize=(50, 100),
         )
@@ -97,7 +97,7 @@ class Camera:
         for (x, y, w, h) in faceDetect:
             cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
             startPunkt = x, y
-            endPunkt = x + w, y + h
+            endPunkt = x + w, 2 * (y + h)
 
         '''
             coordinate for rectangle for eye detection :: red 
@@ -141,7 +141,7 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.faceRecognition()
-            cv.imshow("Camera", self.frameMasked)
+            cv.imshow("Camera", self.frame)
 
             self.key = cv.waitKey(1)
             # q for quit
