@@ -45,11 +45,15 @@ class Camera:
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye_tree_eyeglasses.xml')
         if eyeCascade.empty():
             raise IOError("unable to load haarcascade_eye_tree_eyeglasses.xml")
-
         mouthCascade = cv.CascadeClassifier(
-            '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_mouth.xml')
+            '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mouth.xml')
         if mouthCascade.empty():
             raise IOError("unable to load haarcascade_mcs_mouth.xml")
+
+        upperBodyCascade = cv.CascadeClassifier(
+            '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_upperbody.xml')
+        if upperBodyCascade.empty():
+            raise IOError("unanble to load haarcascade_fullbody.xml")
 
         noseCascade = cv.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
@@ -78,11 +82,11 @@ class Camera:
             minNeighbors=5,
             minSize=(30, 30),
         )
-        noseDetect = noseCascade.detectMultiScale(
+        upperBodyDetect = upperBodyCascade.detectMultiScale(
             grayImage,
             scaleFactor=1.1,
             minNeighbors=11,
-            minSize=(30, 30),
+            minSize=(50, 100),
         )
         '''
             for the mask as circle center_cordinate as faceCoordinate and radius have to be declared
@@ -96,25 +100,20 @@ class Camera:
             radius = h // 2
 
         '''
-            this code have been commented to make the image clearly
-            maby it will be used later
-        '''
-
-        '''
             coordinate for rectangle for eye detection :: red 
         '''
-        # for (x, y, w, h) in eyeDetect:
-        #     cv.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
+        for (x, y, w, h) in eyeDetect:
+            cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
         '''
             coordinate for rectangle for mouth detection :: blue
         '''
-        # for (x, y, w, h) in mouthDetect:
-        #     cv.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        for (x, y, w, h) in mouthDetect:
+            cv.rectangle(self.frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         '''
-            coordinate for rectangle for nose detection :: black
+            coordinate for rectangle for body detection :: black
         '''
-        # for (x, y, w, h) in noseDetect:
-        #     cv.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 0), 2)
+        for (x, y, w, h) in upperBodyDetect:
+            cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 0, 0), 2)
 
         '''
            black Background from numpy
