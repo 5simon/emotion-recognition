@@ -8,7 +8,7 @@ class Camera:
     """
         variables
     """
-    capture = cv.VideoCapture(0)
+    capture = cv.VideoCapture(2) # 0 for laptop, 2 for external camera
     checkCamera = capture.isOpened()
     frame = []
     key = 0
