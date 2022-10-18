@@ -3,7 +3,7 @@ import os
 import cv2 as cv
 import numpy as np
 
-
+# to make to the pics color just switch between grayImage and frame
 class Camera:
     """
         variables
@@ -11,6 +11,7 @@ class Camera:
     capture = cv.VideoCapture(2)  # 0 for laptop, 2 for external camera
     checkCamera = capture.isOpened()
     frame = []
+    grayImage = []
     key = 0
     frameMasked = []
     # video
@@ -59,31 +60,31 @@ class Camera:
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
         if noseCascade.empty():
             raise IOError("unable to load haarcascade_mcs_nose.xml")
-        grayImage = cv.cvtColor(self.frame, cv.COLOR_BGR2GRAY)
+        self.grayImage = cv.cvtColor(self.frame, cv.COLOR_BGR2GRAY)
 
         '''
             detecting features in face
         '''
         faceDetect = faceCascade.detectMultiScale(
-            grayImage,
+            self.grayImage,
             scaleFactor=1.1,
             minNeighbors=4,
             minSize=(30, 30),
         )
         eyeDetect = eyeCascade.detectMultiScale(
-            grayImage,
+            self.grayImage,
             scaleFactor=1.1,
             minNeighbors=5,
             minSize=(30, 30),
         )
         mouthDetect = mouthCascade.detectMultiScale(
-            grayImage,
+            self.grayImage,
             scaleFactor=3,
             minNeighbors=5,
             minSize=(30, 30),
         )
         upperBodyDetect = upperBodyCascade.detectMultiScale(
-            grayImage,
+            self.grayImage,
             scaleFactor=1.01,
             minNeighbors=11,
             minSize=(50, 100),
@@ -95,7 +96,7 @@ class Camera:
 
         # coordinate for rectangle for face detection :: green
         for (x, y, w, h) in faceDetect:
-            cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv.rectangle(self.grayImage, (x, y), (x + w, y + h), (0, 255, 0), 2)
             startPunkt = x, y
             endPunkt = x + w, 2 * (y + h)
 
@@ -103,22 +104,22 @@ class Camera:
             coordinate for rectangle for eye detection :: red 
         '''
         for (x, y, w, h) in eyeDetect:
-            cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            cv.rectangle(self.grayImage, (x, y), (x + w, y + h), (0, 0, 255), 2)
         '''
             coordinate for rectangle for mouth detection :: blue
         '''
         for (x, y, w, h) in mouthDetect:
-            cv.rectangle(self.frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+            cv.rectangle(self.grayImage, (x, y), (x + w, y + h), (255, 0, 0), 2)
         '''
             coordinate for rectangle for body detection :: black
         '''
         for (x, y, w, h) in upperBodyDetect:
-            cv.rectangle(self.frame, (x, y), (x + w, y + h), (0, 0, 0), 2)
+            cv.rectangle(self.grayImage, (x, y), (x + w, y + h), (0, 0, 0), 2)
 
         '''
            black Background from numpy
         '''
-        blackBackground = np.zeros(self.frame.shape[:2], np.uint8)
+        blackBackground = np.zeros(self.grayImage.shape[:2], np.uint8)
         '''
             create circle around the detected face
         '''
@@ -126,7 +127,7 @@ class Camera:
         '''
             insert the circle to the frame
         '''
-        self.frameMasked = cv.bitwise_and(self.frame, self.frame, mask=blackBackground)
+        self.frameMasked = cv.bitwise_and(self.grayImage, self.grayImage, mask=blackBackground)
 
     def openCamere(self):
         if not self.checkCamera:
@@ -141,7 +142,7 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.faceRecognition()
-            cv.imshow("Camera", self.frame)
+            cv.imshow("Camera", self.grayImage)
 
             self.key = cv.waitKey(1)
             # q for quit
