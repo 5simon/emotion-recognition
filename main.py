@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from Recognition.camera import *
+from Recognition.face.camera import *
 
 print("tensorflow is installed and has the version: ", tf.__version__)
 print("\nopencv is installed and has the version: ", cv.__version__)
