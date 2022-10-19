@@ -3,9 +3,13 @@ this project is a bachelor thesis in  **TU Bergakademie Freiberg**. in this proj
 
 Happy coding :grin:
 
-# tools
-* Tesnorflow         ``` pip install tensorflow ``` 
-* OpenCv             ``` pip install opencv-python ``` 
+# Tools
+* [Tesnorflow](https://www.tensorflow.org/)  
+  * ``` pip install tensorflow ``` 
+* [OpenCv](https://docs.opencv.org/3.4/index.html)
+  * ``` pip install opencv-python ``` 
+* [first dataset:  FER-2013](https://www.kaggle.com/datasets/msambare/fer2013?select=train)
+
 
 # Run App
 * pyCharm: simply Run 
@@ -13,8 +17,10 @@ Happy coding :grin:
 * clean: ``` py3clean . ```
 
 # Implementation
-just call *saveImageFromCamera()* in *main.py* from class *Camera*
-
+* just call [*saveImageFromCamera()*](emotion-recognition/Recognition/face/camera.py) in *main.py* from class *Camera*
+* [Load dataset](emotion-recognition/Recognition/Emotion/helpFunctions.py)
+  * **Train**: by calling *load_dataset("Recognition/archive/train/")* 
+  * **Test**: by calling *load_dataset("Recognition/archive/test/")*
 # uninstall package
 ```
 pip uninstall "package name"
