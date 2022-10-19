@@ -17,8 +17,8 @@ Happy coding :grin:
 * clean: ``` py3clean . ```
 
 # Implementation
-* just call [*saveImageFromCamera()*](emotion-recognition/Recognition/face/camera.py) in *main.py* from class *Camera*
-* [Load dataset](emotion-recognition/Recognition/Emotion/helpFunctions.py)
+* just call [*saveImageFromCamera()*](Recognition/face/camera.py) in *main.py* from class *Camera*
+* [Load dataset](Recognition/Emotion/helpFunctions.py)
   * **Train**: by calling *load_dataset("Recognition/archive/train/")* 
   * **Test**: by calling *load_dataset("Recognition/archive/test/")*
 # uninstall package
