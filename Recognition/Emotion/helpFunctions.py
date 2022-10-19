@@ -9,11 +9,13 @@ import matplotlib.pyplot as plt
 '''
 def load_dataset(path_name):
     path_name = path_name
+    # training and test data
     data = []
+
     images_train = []
-    label_train = []
+    labels_train = []
     images_test = []
-    label_test = []
+    labels_test = []
     # Emotion types
     classes = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
     for emotion_type in classes:
@@ -41,17 +43,15 @@ def load_dataset(path_name):
     if path_name == "Recognition/archive/train/":
         for images, labels in data:
             images_train.append(images)
-            label_train.append(labels)
-            print(labels)
+            labels_train.append(labels)
         print("the index of Train data: ", len(data))
+        return images_train, labels_train
     elif path_name == "Recognition/archive/test/":
         for images, labels in data:
             images_test.append(images)
-            label_test.append(labels)
-            label_train.append(labels)
+            labels_test.append(labels)
         print("the index of Test data: ", len(data))
-
-
+        return images_test, labels_test
 
 '''
     resize_images received 
