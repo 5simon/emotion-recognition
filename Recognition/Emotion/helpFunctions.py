@@ -7,19 +7,18 @@ import cv2 as cv
 '''
 
 
-def load_dataset(path_name):
+def load_dataset(path_name, image_size=48):
     path_name = path_name
-
     # check if path exist
     if not os.path.exists(path_name):
         raise IOError("no such path like: " + path_name)
     # training and test data
     data = []
 
-    images_train = []
-    labels_train = []
-    images_test = []
-    labels_test = []
+    train_images = []
+    train_labels = []
+    test_images = []
+    test_labels = []
     # Emotion types
     classes = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
     for emotion_type in classes:
@@ -35,7 +34,7 @@ def load_dataset(path_name):
                 # plt.imshow(cv.cvtColor(images, cv.COLOR_BGR2RGB))
                 # plt.show()
                 # print("old: ", images.shape)
-                new_images = resize_images(images, 224)
+                new_images = resize_images(images, image_size)
 
                 # just to test function
 
@@ -49,16 +48,16 @@ def load_dataset(path_name):
 
     if path_name == "Recognition/archive/train/":
         for images, labels in data:
-            images_train.append(images)
-            labels_train.append(labels)
+            train_images.append(images)
+            train_labels.append(labels)
         print("the index of Train data: ", len(data))
-        return images_train, labels_train
+        return train_images, train_labels
     elif path_name == "Recognition/archive/test/":
         for images, labels in data:
-            images_test.append(images)
-            labels_test.append(labels)
+            test_images.append(images)
+            test_labels.append(labels)
         print("the index of Test data: ", len(data))
-        return images_test, labels_test
+        return test_images, test_labels
 
 
 '''
@@ -73,3 +72,5 @@ def resize_images(images, new_size):
     new_images = cv.resize(images, (image_size, image_size))
 
     return new_images
+
+
