@@ -9,6 +9,10 @@ import matplotlib.pyplot as plt
 '''
 def load_dataset(path_name):
     path_name = path_name
+
+    # check if path exist
+    if (not os.path.exists(path_name)):
+        raise IOError("no such path like: " + path_name)
     # training and test data
     data = []
 
@@ -20,6 +24,9 @@ def load_dataset(path_name):
     classes = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
     for emotion_type in classes:
         path = os.path.join(path_name, emotion_type)
+        # check if path exist
+        if (not os.path.exists(path)):
+            raise IOError("no such path like: " + path)
         for image in os.listdir(path):
             try:
                 images = cv.imread(os.path.join(path, image))
