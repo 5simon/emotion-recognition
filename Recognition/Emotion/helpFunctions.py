@@ -1,17 +1,17 @@
 import os
 
 import cv2 as cv
-import matplotlib.pyplot as plt
-
 
 '''
     loading alle images for testing and training
 '''
+
+
 def load_dataset(path_name):
     path_name = path_name
 
     # check if path exist
-    if (not os.path.exists(path_name)):
+    if not os.path.exists(path_name):
         raise IOError("no such path like: " + path_name)
     # training and test data
     data = []
@@ -25,12 +25,12 @@ def load_dataset(path_name):
     for emotion_type in classes:
         path = os.path.join(path_name, emotion_type)
         # check if path exist
-        if (not os.path.exists(path)):
+        if not os.path.exists(path):
             raise IOError("no such path like: " + path)
         for image in os.listdir(path):
             try:
                 images = cv.imread(os.path.join(path, image))
-                #just to test if the images were loading
+                # just to test if the images were loading
 
                 # plt.imshow(cv.cvtColor(images, cv.COLOR_BGR2RGB))
                 # plt.show()
@@ -60,11 +60,14 @@ def load_dataset(path_name):
         print("the index of Test data: ", len(data))
         return images_test, labels_test
 
+
 '''
     resize_images received 
         * images as array
         * new_size as integer
 '''
+
+
 def resize_images(images, new_size):
     image_size = new_size
     new_images = cv.resize(images, (image_size, image_size))
