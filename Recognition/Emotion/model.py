@@ -1,15 +1,32 @@
 import tensorflow as tf
+from keras.callbacks import EarlyStopping
+from keras_preprocessing.image import ImageDataGenerator
 from matplotlib import pyplot as plt
 
 from Recognition.Emotion.helpFunctions import *
 
+'''
+    Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
+    Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
+    Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
+    Flatten
+    Dense -> BN -> Activation
+    Dense -> BN -> Activation
+    Dense -> BN -> Activation
+    Output layer
+'''
+
 
 def training_data():
+    class_numbers = 7
     epochs_index = 10
+    batch_size = 64
+    num_features = 64
     # load train
     train_images, train_labels = load_dataset("Recognition/archive/train/")
     test_images, test_labels = load_dataset("Recognition/archive/test/")
     print(train_images[0].shape)
+
     # train_new_iamges = resize_images(train_images, 224)
     # test images if they exist
     # plt.figure(figsize=(10, 10))
@@ -46,7 +63,22 @@ def training_data():
     model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
 
-    history = model.fit(train_images, train_labels, epochs=epochs_index, validation_data=(test_images, test_labels))
+    print(model.summary())
+
+    data_generator = ImageDataGenerator(
+        featurewise_center=False,
+        featurewise_std_normalization=False,
+        rotation_range=10,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        zoom_range=.1,
+        horizontal_flip=True)
+
+    es = EarlyStopping(monitor='val_loss', patience=10, mode='min', restore_best_weights=True)
+
+    history = model.fit_generator(data_generator.flow(train_images, train_labels, batch_size),
+                                  epochs=epochs_index, callbacks=[es], verbose=2,
+                                  validation_data=(test_images, test_labels))
 
     plt.plot(history.history['accuracy'], label="accuracy")
     plt.plot(history.history['val_accuracy'], label="val_accuracy")
@@ -58,4 +90,3 @@ def training_data():
     test_loss, test_accuracy = model.evaluate(test_images, test_labels, verbose=2)
     print("test loss: " + test_loss)
     print("test accuracy: " + test_accuracy)
-
