@@ -157,8 +157,9 @@ class Camera:
         * openPath opens the folder, in it the images will be saved to testing
     """
 
-    def open_path(self):
-        path_name = r'testImages'
+    @staticmethod
+    def open_path(self, path_name):
+        path_name = path_name
         path_existing = os.path.exists(path_name)
         if (not path_existing):
             os.makedirs(path_name)
@@ -169,7 +170,7 @@ class Camera:
     """
 
     def save_image_from_camera(self):
-        self.open_path()
+        self.open_path(r'testImages')
         image_index = 0
         wait = 0
         self.open_camere()

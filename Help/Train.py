@@ -56,7 +56,6 @@ emotion_model_info = emotion_model.fit_generator(
         validation_data=validation_generator,
         validation_steps=7178 // 64)
 
-# save model structure in jason file
 model_json = emotion_model.to_json()
 with open("emotion_model.json", "w") as json_file:
     json_file.write(model_json)
