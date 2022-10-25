@@ -133,13 +133,13 @@ class Camera:
         '''
         black_background = np.zeros(self.gray_image.shape[:2], np.uint8)
         '''
-            create circle around the detected face
+            create rectangle around the detected face
         '''
         cv.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
         '''
             insert the circle to the frame
         '''
-        self.frame_masked = cv.bitwise_and(self.gray_image, self.gray_image, mask=black_background)
+        self.frame_masked = cv.bitwise_and(self.frame, self.frame, mask=black_background)
 
     def open_camera(self):
         if not self.check_camera:
@@ -153,7 +153,7 @@ class Camera:
                 break
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
-            self.face_recognition()
+            #self.face_recognition()
             cv.imshow("Camera", self.frame)
 
             self.key = cv.waitKey(1)

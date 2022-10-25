@@ -29,17 +29,19 @@ class TestModel:
 
         return model
 
-    def emotion_recognition(self):
+    def emotion_recognition(self, image_size=48):
         emotion_model = self.open_emotion_model(self.filename_json, self.filename_h5)
 
         # open camera with face detection
-        window = Camera()
+        window = Camera(which_camera=0)
         window.open_camera()
         while window.open_camera():
-            cropped_img = np.expand_dims(np.expand_dims(resize_images(window.gray_image, 48), -1), 0)
+            window.face_recognition()
+            cropped_img = np.expand_dims(np.expand_dims(resize_images(window.gray_image, image_size), -1), 0)
             emotion_prediction = emotion_model.predict(cropped_img)
             max_index = int(np.argmax(emotion_prediction))
             cv.putText(window.frame, self.emotion_classes[max_index], (window.x + 5, window.y - 30),
-                       cv.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2, cv.LINE_AA)
+                       cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv.LINE_AA)
 
         window.close_camera()
+        print(window.frame)
