@@ -1,5 +1,5 @@
 import os
-
+import tensorflow as tf
 import cv2 as cv
 
 '''
@@ -74,3 +74,23 @@ def resize_images(images, new_size):
     return new_images
 
 
+'''
+    open_data received
+        * filename_json as string
+        * filename_h5 as string 
+    opens the file as json as well as h5 with trained dataset
+    and returns the model, with this model the live stream can be tested
+'''
+
+
+def open_data(filename_json, filename_h5):
+    # filename_json can be like : 'model_1/model.json'
+    # filename_h5 can be like "model_1/model.h5"
+
+    file = open(filename_json, 'r')
+    model_as_json = file.read()
+    file.close()
+    model = tf.keras.models.model_from_json(model_as_json)
+    model.load_weights(filename_h5)
+
+    return model

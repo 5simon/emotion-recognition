@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from keras.models import model_from_json
 
-emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
+emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fear", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
 # load json and create model
 json_file = open('model_1/model.json', 'r')
@@ -14,7 +14,7 @@ emotion_model.load_weights("model_1/model.h5")
 print("Loaded model from disk")
 
 # start the webcam feed
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 
 while True:
     # Find haar cascade to draw bounding box around face
