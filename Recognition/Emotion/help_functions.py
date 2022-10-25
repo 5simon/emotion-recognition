@@ -4,6 +4,7 @@ import cv2 as cv
 
 '''
     loading alle images for testing and training
+     **fixing**
 '''
 
 def load_dataset(path_name, image_size=48):

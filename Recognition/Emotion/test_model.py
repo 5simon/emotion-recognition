@@ -1,5 +1,5 @@
-from Recognition.Emotion.help_functions import *
 from Recognition.face.camera import *
+
 
 class TestModel:
     emotion_classes = {
@@ -8,11 +8,11 @@ class TestModel:
     }
     filename_json = ""
     filename_h5 = ""
+
     def __init__(self, filename_json, filename_h5):
         self.filename_json = filename_json
         self.filename_h5 = filename_h5
         print("I am testing your state emotion :) always be happy")
-
 
     # Calling  open_emotion_model be like
     # emotion_model = open_emotion_model("model_1/model.json", "model_1/model.h5")
@@ -30,16 +30,16 @@ class TestModel:
         return model
 
     def emotion_recognition(self):
-
         emotion_model = self.open_emotion_model(self.filename_json, self.filename_h5)
 
         # open camera with face detection
         window = Camera()
         window.open_camera()
-
         while window.open_camera():
             cropped_img = np.expand_dims(np.expand_dims(resize_images(window.gray_image, 48), -1), 0)
             emotion_prediction = emotion_model.predict(cropped_img)
             max_index = int(np.argmax(emotion_prediction))
             cv.putText(window.frame, self.emotion_classes[max_index], (window.x + 5, window.y - 30),
                        cv.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2, cv.LINE_AA)
+
+        window.close_camera()
