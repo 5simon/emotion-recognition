@@ -1,7 +1,8 @@
-from Recognition.Emotion.model import *
-
+from Recognition.Emotion.test_model import TestModel
+from Recognition.face.camera import Camera
 if __name__ == "__main__":
-    # camera_window = Camera()
-    # camera_window.save_image_from_camera()
+    camera_window = Camera()
+    camera_window.open_camera()
 
-    training_data()
+    #test_1 = TestModel("Recognition/Emotion/model_1/model.json", "Recognition/Emotion/model_1/model.h5")
+    #test_1.emotion_recognition()

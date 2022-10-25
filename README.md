@@ -18,7 +18,7 @@ Happy coding :grin:
 
 # Implementation
 * just call [*saveImageFromCamera()*](Recognition/face/camera.py) in *main.py* from class *Camera*
-* [Load dataset](Recognition/Emotion/helpFunctions.py)
+* [Load dataset](Recognition/Emotion/help_functions.py)
   * **Train**: by calling *load_dataset("Recognition/archive/train/")* 
   * **Test**: by calling *load_dataset("Recognition/archive/test/")*
 # uninstall package

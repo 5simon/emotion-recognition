@@ -6,7 +6,6 @@ import cv2 as cv
     loading alle images for testing and training
 '''
 
-
 def load_dataset(path_name, image_size=48):
     path_name = path_name
     # check if path exist
@@ -65,7 +64,6 @@ def load_dataset(path_name, image_size=48):
         * images as array
         * new_size as integer
 '''
-
 
 def resize_images(images, new_size):
     image_size = new_size

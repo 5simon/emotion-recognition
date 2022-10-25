@@ -1,5 +1,5 @@
 import os
-
+from Recognition.Emotion.help_functions import *
 import cv2 as cv
 import numpy as np
 
@@ -8,7 +8,8 @@ class Camera:
     """
         variables
     """
-    capture = cv.VideoCapture(2)  # 0 for laptop, 2 for external camera
+    which_camera = 0
+    capture = cv.VideoCapture(which_camera)  # 0 for laptop, 2 for external camera
     check_camera = capture.isOpened()
     frame = []
     gray_image = []
@@ -16,9 +17,17 @@ class Camera:
     frame_masked = []
     # video
     output_video = ""
+    # Coordinate the detected features
+    x = 0.0
+    y = 0.0
+    w = 0.0
+    h = 0.0
 
-    def __init__(self):
+    cropped_img = []
+    def __init__(self, which_camera=0):
+        self.which_camera = which_camera
         print("Camera processing...")
+
 
     """
         * closeCamera closes all windows if the window is Existing 
@@ -95,26 +104,29 @@ class Camera:
         start_punkt, end_punkt = [0, 0], [0, 0]
 
         # coordinate for rectangle for face detection :: green
-        for (x, y, w, h) in face_detect:
-            cv.rectangle(self.gray_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            start_punkt = x, y
-            end_punkt = x + w, 2 * (y + h)
+        for (self.x, self.y, self.w, self.h) in face_detect:
+            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 255, 0), 2)
+            start_punkt = self.x, self.y
+            end_punkt = self.x + self.w, 2 * (self.y + self.h)
+
+            self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.gray_image, 48), -1), 0)
+
 
         '''
             coordinate for rectangle for eye detection :: red 
         '''
-        for (x, y, w, h) in eye_detect:
-            cv.rectangle(self.gray_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        for (self.x, self.y, self.w, self.h) in eye_detect:
+            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 255), 2)
         '''
             coordinate for rectangle for mouth detection :: blue
         '''
-        for (x, y, w, h) in mouth_detect:
-            cv.rectangle(self.gray_image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        for (self.x, self.y, self.w, self.h) in mouth_detect:
+            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (255, 0, 0), 2)
         '''
             coordinate for rectangle for body detection :: black
         '''
-        for (x, y, w, h) in upper_body_detect:
-            cv.rectangle(self.gray_image, (x, y), (x + w, y + h), (0, 0, 0), 2)
+        for (self.x, self.y, self.w, self.h) in upper_body_detect:
+            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 0), 2)
 
         '''
            black Background from numpy
@@ -129,7 +141,7 @@ class Camera:
         '''
         self.frame_masked = cv.bitwise_and(self.gray_image, self.gray_image, mask=black_background)
 
-    def open_camere(self):
+    def open_camera(self):
         if not self.check_camera:
             print("can't open the camera!")
             exit()
@@ -142,7 +154,7 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.face_recognition()
-            cv.imshow("Camera", self.gray_image)
+            cv.imshow("Camera", self.frame)
 
             self.key = cv.waitKey(1)
             # q for quit
@@ -158,7 +170,7 @@ class Camera:
     """
 
     @staticmethod
-    def open_path(self, path_name):
+    def open_path(path_name):
         path_name = path_name
         path_existing = os.path.exists(path_name)
         if (not path_existing):
@@ -173,8 +185,8 @@ class Camera:
         self.open_path(r'testImages')
         image_index = 0
         wait = 0
-        self.open_camere()
-        while self.open_camere():
+        self.open_camera()
+        while self.open_camera():
             wait = 1
             if wait == 1:
                 file_name = 'frame_' + str(image_index) + '.jpg'
