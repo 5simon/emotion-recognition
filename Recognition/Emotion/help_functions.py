@@ -1,6 +1,6 @@
 import os
 import tensorflow as tf
-import cv2 as cv
+import cv2
 
 '''
     loading alle images for testing and training
@@ -28,17 +28,17 @@ def load_dataset(path_name, image_size=48):
             raise IOError("no such path like: " + path)
         for image in os.listdir(path):
             try:
-                images = cv.imread(os.path.join(path, image))
+                images = cv2.imread(os.path.join(path, image))
                 # just to test if the images were loading
 
-                # plt.imshow(cv.cvtColor(images, cv.COLOR_BGR2RGB))
+                # plt.imshow(cv2.cvtColor(images, cv2.COLOR_BGR2RGB))
                 # plt.show()
                 # print("old: ", images.shape)
                 new_images = resize_images(images, image_size)
 
                 # just to test function
 
-                # plt.imshow(cv.cvtColor(new_images, cv.COLOR_BGR2RGB))
+                # plt.imshow(cv2.cvtColor(new_images, cv2.COLOR_BGR2RGB))
                 # plt.show()
                 # print("new: ", new_images.shape)
                 data.append([new_images, emotion_type])
@@ -68,7 +68,7 @@ def load_dataset(path_name, image_size=48):
 
 def resize_images(images, new_size):
     image_size = new_size
-    new_images = cv.resize(images, (image_size, image_size))
+    new_images = cv2.resize(images, (image_size, image_size))
 
     return new_images
 

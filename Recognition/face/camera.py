@@ -1,6 +1,6 @@
 import os
 from Recognition.Emotion.help_functions import *
-import cv2 as cv
+import cv2
 import numpy as np
 
 # to make to the pics color just switch between grayImage and frame
@@ -9,7 +9,7 @@ class Camera:
         variables
     """
     which_camera = 0
-    capture = cv.VideoCapture(which_camera)  # 0 for laptop, 2 for external camera
+    capture = cv2.VideoCapture(which_camera)  # 0 for laptop, 2 for external camera
     check_camera = capture.isOpened()
     frame = []
     gray_image = []
@@ -38,7 +38,7 @@ class Camera:
             self.capture.release()
         if self.output_video:
             self.output_video.release()
-        cv.destroyAllWindows()
+        cv2.destroyAllWindows()
 
         print("break all windows")
 
@@ -47,29 +47,30 @@ class Camera:
     """
 
     def face_recognition(self):
-        face_cascade = cv.CascadeClassifier(
+        face_cascade = cv2.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
         if face_cascade.empty():
             raise IOError("unable to load haarcascade_frontalface_default.xml")
-        eye_cascade = cv.CascadeClassifier(
+        eye_cascade = cv2.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye_tree_eyeglasses.xml')
         if eye_cascade.empty():
             raise IOError("unable to load haarcascade_eye_tree_eyeglasses.xml")
-        mouth_cascade = cv.CascadeClassifier(
+        mouth_cascade = cv2.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mouth.xml')
         if mouth_cascade.empty():
             raise IOError("unable to load haarcascade_mcs_mouth.xml")
 
-        upper_body_cascade = cv.CascadeClassifier(
+        upper_body_cascade = cv2.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_upperbody.xml')
         if upper_body_cascade.empty():
             raise IOError("unanble to load haarcascade_fullbody.xml")
 
-        nose_cascade = cv.CascadeClassifier(
+        nose_cascade = cv2.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mcs_nose.xml')
         if nose_cascade.empty():
             raise IOError("unable to load haarcascade_mcs_nose.xml")
-        self.gray_image = cv.cvtColor(self.frame, cv.COLOR_BGR2GRAY)
+
+        self.gray_image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
 
         '''
             detecting features in face
@@ -105,41 +106,41 @@ class Camera:
 
         # coordinate for rectangle for face detection :: green
         for (self.x, self.y, self.w, self.h) in face_detect:
-            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 255, 0), 2)
+            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 255, 0), 2)
             start_punkt = self.x, self.y
             end_punkt = self.x + self.w, 2 * (self.y + self.h)
 
-            self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.gray_image, 48), -1), 0)
+            self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.frame, 48), -1), 0)
 
 
         '''
             coordinate for rectangle for eye detection :: red 
         '''
         for (self.x, self.y, self.w, self.h) in eye_detect:
-            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 255), 2)
+            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 255), 2)
         '''
             coordinate for rectangle for mouth detection :: blue
         '''
         for (self.x, self.y, self.w, self.h) in mouth_detect:
-            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (255, 0, 0), 2)
+            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (255, 0, 0), 2)
         '''
             coordinate for rectangle for body detection :: black
         '''
         for (self.x, self.y, self.w, self.h) in upper_body_detect:
-            cv.rectangle(self.gray_image, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 0), 2)
+            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 0), 2)
 
         '''
            black Background from numpy
         '''
-        black_background = np.zeros(self.gray_image.shape[:2], np.uint8)
+        black_background = np.zeros(self.frame.shape[:2], np.uint8)
         '''
             create rectangle around the detected face
         '''
-        cv.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+        cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
         '''
             insert the circle to the frame
         '''
-        self.frame_masked = cv.bitwise_and(self.frame, self.frame, mask=black_background)
+        self.frame_masked = cv2.bitwise_and(self.frame, self.frame, mask=black_background)
 
     def open_camera(self):
         if not self.check_camera:
@@ -153,12 +154,12 @@ class Camera:
                 break
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
-            #self.face_recognition()
-            cv.imshow("Camera", self.frame)
+            self.face_recognition()
+            cv2.imshow("Camera", self.frame)
 
-            self.key = cv.waitKey(1)
+            self.key = cv2.waitKey(1)
             # q for quit
-            if self.key == ord("q"):
+            if self.key & 0xFF == ord("q"):
                 print("Exiting....")
                 return False
                 break
@@ -190,7 +191,7 @@ class Camera:
             wait = 1
             if wait == 1:
                 file_name = 'frame_' + str(image_index) + '.jpg'
-                cv.imwrite(file_name, self.frame_masked)
+                cv2.imwrite(file_name, self.frame_masked)
                 image_index = image_index + 1
                 wait = 0
         self.close_camera()
