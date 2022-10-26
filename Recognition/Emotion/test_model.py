@@ -36,12 +36,11 @@ class TestModel:
         window = Camera(which_camera=0)
         window.open_camera()
         while window.open_camera():
-            window.face_recognition()
             cropped_img = np.expand_dims(np.expand_dims(resize_images(window.gray_image, image_size), -1), 0)
             emotion_prediction = emotion_model.predict(cropped_img)
             max_index = int(np.argmax(emotion_prediction))
             cv2.putText(window.frame, self.emotion_classes[max_index], (window.x + 5, window.y - 30),
-                       cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
         window.close_camera()
         print(window.frame)
