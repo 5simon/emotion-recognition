@@ -3,6 +3,9 @@ from Recognition.Emotion.help_functions import *
 import cv2
 import numpy as np
 
+from Recognition.Emotion.test_model import TestModel
+
+
 # to make to the pics color just switch between grayImage and frame
 class Camera:
     """
@@ -155,6 +158,11 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.face_recognition()
+            test = TestModel(
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model.json",
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model.h5"
+            )
+            test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y)
             cv2.imshow("Camera", self.frame)
 
             self.key = cv2.waitKey(1)
