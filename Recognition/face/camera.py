@@ -116,21 +116,21 @@ class Camera:
             self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.frame, 48), -1), 0)
 
 
-        '''
-            coordinate for rectangle for eye detection :: red 
-        '''
-        for (self.x, self.y, self.w, self.h) in eye_detect:
-            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 255), 2)
-        '''
-            coordinate for rectangle for mouth detection :: blue
-        '''
-        for (self.x, self.y, self.w, self.h) in mouth_detect:
-            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (255, 0, 0), 2)
-        '''
-            coordinate for rectangle for body detection :: black
-        '''
-        for (self.x, self.y, self.w, self.h) in upper_body_detect:
-            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 0), 2)
+        # '''
+        #     coordinate for rectangle for eye detection :: red
+        # '''
+        # for (self.x, self.y, self.w, self.h) in eye_detect:
+        #     cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 255), 2)
+        # '''
+        #     coordinate for rectangle for mouth detection :: blue
+        # '''
+        # for (self.x, self.y, self.w, self.h) in mouth_detect:
+        #     cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (255, 0, 0), 2)
+        # '''
+        #     coordinate for rectangle for body detection :: black
+        # '''
+        # for (self.x, self.y, self.w, self.h) in upper_body_detect:
+        #     cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 0, 0), 2)
 
         '''
            black Background from numpy

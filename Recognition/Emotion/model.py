@@ -1,5 +1,4 @@
 import tensorflow as tf
-# from Recognition.face.camera import *
 
 '''
     Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
