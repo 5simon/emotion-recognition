@@ -109,9 +109,9 @@ class Camera:
 
         # coordinate for rectangle for face detection :: green
         for (self.x, self.y, self.w, self.h) in face_detect:
-            cv2.rectangle(self.frame, (self.x, self.y), (self.x + self.w, self.y + self.h), (0, 255, 0), 2)
-            start_punkt = self.x, self.y
-            end_punkt = self.x + self.w, 2 * (self.y + self.h)
+            cv2.rectangle(self.frame, (int(self.x), int(self.y-50)), (int(self.x) + int(self.w), int(self.y) + int(self.h+10)), (0, 255, 0), 4)
+            start_punkt = int(self.x), int(self.y)
+            end_punkt = int(self.x) + int(self.w), 2 * (int(self.y) + int(self.h))
 
             self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.frame, 48), -1), 0)
 
@@ -158,11 +158,13 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.face_recognition()
+
             test = TestModel(
                 "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model.json",
                 "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model.h5"
             )
-            test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y)
+            test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w)
+
             cv2.imshow("Camera", self.frame)
 
             self.key = cv2.waitKey(1)

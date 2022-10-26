@@ -67,10 +67,13 @@ def load_dataset(path_name, image_size=48):
 '''
 
 def resize_images(images, new_size):
-    image_size = new_size
-    new_images = cv2.resize(images, (image_size, image_size))
-
-    return new_images
+    try:
+        image_size = new_size
+        new_images = cv2.resize(images, (image_size, image_size))
+        return new_images
+    except Exception as e:
+        print(str(e))
+        exit()
 
 
 '''

@@ -1,5 +1,6 @@
 #from Recognition.face.camera import *
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 from Recognition.Emotion.help_functions import *
 
@@ -32,16 +33,13 @@ class TestModel:
 
         return model
 
-    def emotion_recognition(self, frame,gray_image,check_camera, x, y,image_size=48):
+    def emotion_recognition(self, frame, gray_image, check_camera, x, y, h, w, image_size=48):
         emotion_model = self.open_emotion_model(self.filename_json, self.filename_h5)
+        #                               y: y + h, x: x + w
+        roi_gray_frame = gray_image[int(y):int(y) + int(h), int(x):int(x) + int(w)]
 
-        # open camera with face detection
-        # window = Camera(which_camera=0)
-        # window.open_camera()
+        cropped_img = np.expand_dims(np.expand_dims(resize_images(roi_gray_frame, image_size), -1), 0)
 
-
-        #roi_gray_frame = gray_image[y:y + h, x:x + w]
-        cropped_img = np.expand_dims(np.expand_dims(resize_images(gray_image, image_size), -1), 0)
         emotion_prediction = emotion_model.predict(cropped_img)
         max_index = int(np.argmax(emotion_prediction))
-        cv2.putText(frame, self.emotion_classes[max_index], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(frame, self.emotion_classes[max_index], (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
