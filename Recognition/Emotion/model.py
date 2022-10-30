@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 import tensorflow as tf
+import numpy as np
 
 '''
     Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
@@ -26,6 +28,29 @@ class Model:
         self.epoches = epoches
         self.batch_size = batch_size
         self.image_size = image_size
+
+
+    def plot_model_history(self, model_history):
+        fig, axs = plt.subplots(1, 2, figsize=(15, 5))
+        # summarize history for accuracy
+        axs[0].plot(range(1, len(model_history.history['accuracy']) + 1), model_history.history['accuracy'])
+        axs[0].plot(range(1, len(model_history.history['val_accuracy']) + 1), model_history.history['val_accuracy'])
+        axs[0].set_title('Model Accuracy')
+        axs[0].set_ylabel('Accuracy')
+        axs[0].set_xlabel('Epoch')
+        axs[0].set_xticks(np.arange(1, len(model_history.history['accuracy']) + 1),
+                          len(model_history.history['accuracy']) / 10)
+        axs[0].legend(['train', 'val'], loc='best')
+        # summarize history for loss
+        axs[1].plot(range(1, len(model_history.history['loss']) + 1), model_history.history['loss'])
+        axs[1].plot(range(1, len(model_history.history['val_loss']) + 1), model_history.history['val_loss'])
+        axs[1].set_title('Model Loss')
+        axs[1].set_ylabel('Loss')
+        axs[1].set_xlabel('Epoch')
+        axs[1].set_xticks(np.arange(1, len(model_history.history['loss']) + 1), len(model_history.history['loss']) / 10)
+        axs[1].legend(['train', 'val'], loc='best')
+        fig.savefig('plot.png')
+        plt.show()
 
 
     def data_generate(self):
@@ -75,6 +100,10 @@ class Model:
         model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25))
 
+        model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), activation="relu"))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2,2)))
+        model.add(tf.keras.layers.Dropout(0.25))
+
         model.add(tf.keras.layers.Flatten())
         model.add(tf.keras.layers.Dense(1024, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.5))
@@ -91,6 +120,7 @@ class Model:
         )
 
         model.summary()
+        self.plot_model_history(model_info)
         return model
 
 #save infos
@@ -107,7 +137,7 @@ class Model:
 
         # save model structure in jason file
         save_model = model.to_json()
-        with open("model_1/model.json", "w") as json_file:
+        with open("model.json", "w") as json_file:
             json_file.write(save_model)
 
         # save trained model weight in .h5 file
