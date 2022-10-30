@@ -12,13 +12,18 @@ Happy coding :grin:
 
 
 # Run App
-* pyCharm: simply Run 
-* Command: ``` python3 main.py ```
+* help: python3 main.py -h`
+
+      -t TEST, --test TEST      test model
+      -l TRAIN, --train TRAIN   train model
+
+* to testing:  `python3 main.py -t test`
+* to training: `python3 main.py -l train `
 * clean: ``` py3clean . ```
 
 # Implementation
 * just call [*saveImageFromCamera()*](Recognition/face/camera.py) in *main.py* from class *Camera*
-* [Load dataset](Recognition/Emotion/helpFunctions.py)
+* [Load dataset](Recognition/Emotion/help_functions.py)
   * **Train**: by calling *load_dataset("Recognition/archive/train/")* 
   * **Test**: by calling *load_dataset("Recognition/archive/test/")*
 # uninstall package
