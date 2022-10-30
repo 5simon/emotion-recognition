@@ -12,8 +12,13 @@ Happy coding :grin:
 
 
 # Run App
-* pyCharm: simply Run 
-* Command: ``` python3 main.py ```
+* help: python3 main.py -h`
+
+      -t TEST, --test TEST      test model
+      -l TRAIN, --train TRAIN   train model
+
+* to testing:  `python3 main.py -t test`
+* to training: `python3 main.py -l train `
 * clean: ``` py3clean . ```
 
 # Implementation

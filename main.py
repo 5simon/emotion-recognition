@@ -5,7 +5,7 @@ import cv2
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--test", type=str, help="test the model")
+parser.add_argument("-t", "--test", type=str, help="test model")
 parser.add_argument("-l", "--train", type=str, help="train model")
 mode = parser.parse_args()
 
