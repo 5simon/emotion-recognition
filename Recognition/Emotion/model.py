@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
+from scipy.ndimage import label
 
 '''
     Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
@@ -31,26 +32,30 @@ class Model:
 
 
     def plot_model_history(self, model_history):
-        fig, axs = plt.subplots(1, 2, figsize=(15, 5))
-        # summarize history for accuracy
-        axs[0].plot(range(1, len(model_history.history['accuracy']) + 1), model_history.history['accuracy'])
-        axs[0].plot(range(1, len(model_history.history['val_accuracy']) + 1), model_history.history['val_accuracy'])
-        axs[0].set_title('Model Accuracy')
-        axs[0].set_ylabel('Accuracy')
-        axs[0].set_xlabel('Epoch')
-        axs[0].set_xticks(np.arange(1, len(model_history.history['accuracy']) + 1),
-                          len(model_history.history['accuracy']) / 10)
-        axs[0].legend(['train', 'val'], loc='best')
-        # summarize history for loss
-        axs[1].plot(range(1, len(model_history.history['loss']) + 1), model_history.history['loss'])
-        axs[1].plot(range(1, len(model_history.history['val_loss']) + 1), model_history.history['val_loss'])
-        axs[1].set_title('Model Loss')
-        axs[1].set_ylabel('Loss')
-        axs[1].set_xlabel('Epoch')
-        axs[1].set_xticks(np.arange(1, len(model_history.history['loss']) + 1), len(model_history.history['loss']) / 10)
-        axs[1].legend(['train', 'val'], loc='best')
-        fig.savefig('plot.png')
+        # dict_keys(['loss', 'accuracy', 'val_loss', 'val_accuracy'])
+        # epoches = range(1, self.epoches)
+
+        # Loss Curves
+        plt.figure(figsize=[8, 6])
+        plt.plot(model_history.history['loss'], 'r', linewidth=3.0)
+        plt.plot(model_history.history['val_loss'], 'b', linewidth=3.0)
+        plt.legend(['Training loss', 'Validation Loss'], fontsize=18)
+        plt.xlabel('Epochs ', fontsize=16)
+        plt.ylabel('Loss', fontsize=16)
+        plt.title('Loss Curves', fontsize=16)
+        plt.savefig('T&V-loss.png')
         plt.show()
+        # Accuracy Curves
+        plt.figure(figsize=[8, 6])
+        plt.plot(model_history.history['accuracy'], 'r', linewidth=3.0)
+        plt.plot(model_history.history['val_accuracy'], 'b', linewidth=3.0)
+        plt.legend(['Training Accuracy', 'Validation Accuracy'], fontsize=18)
+        plt.xlabel('Epochs ', fontsize=16)
+        plt.ylabel('Accuracy', fontsize=16)
+        plt.title('Accuracy Curves', fontsize=16)
+        plt.savefig('T&V-accuracy.png')
+        plt.show()
+
 
 
     def data_generate(self):
@@ -100,14 +105,17 @@ class Model:
         model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25))
 
+        # new layers
         model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), activation="relu"))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2,2)))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25))
 
         model.add(tf.keras.layers.Flatten())
         model.add(tf.keras.layers.Dense(1024, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.5))
         model.add(tf.keras.layers.Dense(7, activation='softmax'))
+
+        model.summary()
 
         model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001, decay=1e-6), metrics=['accuracy'])
 
@@ -118,8 +126,7 @@ class Model:
             validation_data=validation_generator,
             validation_steps=index_validation_images // batch_size
         )
-
-        model.summary()
+        print(model_info.history.keys())
         self.plot_model_history(model_info)
         return model
 
