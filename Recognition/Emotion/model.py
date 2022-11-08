@@ -1,4 +1,9 @@
+import datetime
+
+import matplotlib.pyplot as plt
 import tensorflow as tf
+import numpy as np
+from scipy.ndimage import label
 
 '''
     Conv -> BN -> Activation -> Conv -> BN -> Activation -> MaxPooling
@@ -26,6 +31,33 @@ class Model:
         self.epoches = epoches
         self.batch_size = batch_size
         self.image_size = image_size
+
+
+    def plot_model_history(self, model_history):
+        # dict_keys(['loss', 'accuracy', 'val_loss', 'val_accuracy'])
+        # epoches = range(1, self.epoches)
+
+        # Loss Curves
+        plt.figure(figsize=[8, 6])
+        plt.plot(model_history.history['loss'], 'r', linewidth=3.0)
+        plt.plot(model_history.history['val_loss'], 'b', linewidth=3.0)
+        plt.legend(['Training loss', 'Validation Loss'], fontsize=18)
+        plt.xlabel('Epochs ', fontsize=16)
+        plt.ylabel('Loss', fontsize=16)
+        plt.title('Loss Curves', fontsize=16)
+        plt.savefig('T&V-loss.png')
+        plt.show()
+        # Accuracy Curves
+        plt.figure(figsize=[8, 6])
+        plt.plot(model_history.history['accuracy'], 'r', linewidth=3.0)
+        plt.plot(model_history.history['val_accuracy'], 'b', linewidth=3.0)
+        plt.legend(['Training Accuracy', 'Validation Accuracy'], fontsize=18)
+        plt.xlabel('Epochs ', fontsize=16)
+        plt.ylabel('Accuracy', fontsize=16)
+        plt.title('Accuracy Curves', fontsize=16)
+        plt.savefig('T&V-accuracy.png')
+        plt.show()
+
 
 
     def data_generate(self):
@@ -75,22 +107,33 @@ class Model:
         model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25))
 
+        # new layers
+        model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), activation="relu"))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+        model.add(tf.keras.layers.Dropout(0.25))
+
         model.add(tf.keras.layers.Flatten())
         model.add(tf.keras.layers.Dense(1024, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.5))
         model.add(tf.keras.layers.Dense(7, activation='softmax'))
 
+        model.summary()
+
         model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001, decay=1e-6), metrics=['accuracy'])
+
+        log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
         model_info = model.fit_generator(
             train_generator,
             steps_per_epoch=index_train_images // batch_size,
             epochs=epoches,
             validation_data=validation_generator,
-            validation_steps=index_validation_images // batch_size
+            validation_steps=index_validation_images // batch_size,
+            callbacks=[tensorboard_callback]
         )
-
-        model.summary()
+        print(model_info.history.keys())
+        self.plot_model_history(model_info)
         return model
 
 #save infos
@@ -107,7 +150,7 @@ class Model:
 
         # save model structure in jason file
         save_model = model.to_json()
-        with open("model_1/model.json", "w") as json_file:
+        with open("model.json", "w") as json_file:
             json_file.write(save_model)
 
         # save trained model weight in .h5 file
