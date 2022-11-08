@@ -1,3 +1,5 @@
+import datetime
+
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
@@ -119,12 +121,16 @@ class Model:
 
         model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001, decay=1e-6), metrics=['accuracy'])
 
+        log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
         model_info = model.fit_generator(
             train_generator,
             steps_per_epoch=index_train_images // batch_size,
             epochs=epoches,
             validation_data=validation_generator,
-            validation_steps=index_validation_images // batch_size
+            validation_steps=index_validation_images // batch_size,
+            callbacks=[tensorboard_callback]
         )
         print(model_info.history.keys())
         self.plot_model_history(model_info)
