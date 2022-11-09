@@ -5,20 +5,20 @@ from help_functions import *
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fear", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
 # # load json and create model
-# json_file = open('model_1/model.json', 'r')
+# json_file = open('model_1/model_2.json', 'r')
 # loaded_model_json = json_file.read()
 # json_file.close()
 # emotion_model = model_from_json(loaded_model_json)
 #
-# emotion_model.load_weights("model_1/model.h5")
+# emotion_model.load_weights("model_1/model_2.h5")
 # print("Loaded model from disk")
 
-emotion_model = open_data("model_1/model.json", "model_1/model.h5")
+emotion_model = open_data("model_2/model_2.json", "model_2/model_2.h5")
 
 # start the webcam feed
 def test():
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     while True:
         # Find haar cascade to draw bounding box around face
         ret, frame = cap.read()

@@ -15,5 +15,5 @@ if __name__ == "__main__":
         camera_window.save_image_from_camera()
 
     if mode.train:
-        model1 = Model(epoches=3)
+        model1 = Model(epoches=75)
         model1.save_model_info()

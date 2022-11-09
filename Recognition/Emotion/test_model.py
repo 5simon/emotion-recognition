@@ -19,11 +19,11 @@ class TestModel:
         print("I am testing your state emotion :) always be happy")
 
     # Calling  open_emotion_model be like
-    # emotion_model = open_emotion_model("model_1/model.json", "model_1/model.h5")
+    # emotion_model = open_emotion_model("model_1/model_2.json", "model_1/model_2.h5")
     #
     def open_emotion_model(self, filename_json, filename_h5):
-        # filename_json can be like : 'model_1/model.json'
-        # filename_h5 can be like "model_1/model.h5"
+        # filename_json can be like : 'model_1/model_2.json'
+        # filename_h5 can be like "model_1/model_2.h5"
 
         file = open(filename_json, 'r')
         model_as_json = file.read()

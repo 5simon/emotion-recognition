@@ -160,8 +160,8 @@ class Camera:
             self.face_recognition()
 
             test = TestModel(
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model.json",
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model.h5"
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model_2.json",
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model_2.h5"
             )
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w)
 

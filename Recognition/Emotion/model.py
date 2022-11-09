@@ -143,15 +143,15 @@ class Model:
         # Camera.open_path(r"Model infos")
         #
         # save_model = model.to_json()
-        # with open("model.json", "w") as json_file:
+        # with open("model_2.json", "w") as json_file:
         #     json_file.write(save_model)
         #
-        # model.save_weights("model.h5")
+        # model.save_weights("model_2.h5")
 
         # save model structure in jason file
         save_model = model.to_json()
-        with open("model.json", "w") as json_file:
+        with open("model_2.json", "w") as json_file:
             json_file.write(save_model)
 
         # save trained model weight in .h5 file
-        model.save_weights("model.h5")
+        model.save_weights("model_2.h5")
