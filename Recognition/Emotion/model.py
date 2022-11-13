@@ -150,8 +150,8 @@ class Model:
 
         # save model structure in jason file
         save_model = model.to_json()
-        with open("model_2.json", "w") as json_file:
+        with open("model.json", "w") as json_file:
             json_file.write(save_model)
 
         # save trained model weight in .h5 file
-        model.save_weights("model_2.h5")
+        model.save_weights("model.h5")

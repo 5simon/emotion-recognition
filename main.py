@@ -11,9 +11,9 @@ mode = parser.parse_args()
 
 if __name__ == "__main__":
     if mode.test:
-        camera_window = Camera(which_camera=0)
+        camera_window = Camera(which_camera=2)
         camera_window.save_image_from_camera()
 
     if mode.train:
-        model1 = Model(epoches=75)
+        model1 = Model(epoches=100)
         model1.save_model_info()
