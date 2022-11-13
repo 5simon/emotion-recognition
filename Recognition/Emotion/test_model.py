@@ -19,11 +19,11 @@ class TestModel:
         print("I am testing your state emotion :) always be happy")
 
     # Calling  open_emotion_model be like
-    # emotion_model = open_emotion_model("model_1/model_2.json", "model_1/model_2.h5")
+    # emotion_model = open_emotion_model("model_1/model_2.json", "model_1/model_3.h5")
     #
     def open_emotion_model(self, filename_json, filename_h5):
         # filename_json can be like : 'model_1/model_2.json'
-        # filename_h5 can be like "model_1/model_2.h5"
+        # filename_h5 can be like "model_1/model_3.h5"
 
         file = open(filename_json, 'r')
         model_as_json = file.read()
@@ -33,13 +33,15 @@ class TestModel:
 
         return model
 
-    def emotion_recognition(self, frame, gray_image, check_camera, x, y, h, w, image_size=48):
+    def emotion_recognition(self, frame, gray_image, check_camera, x, y, h, w,face_detect, image_size=48):
         emotion_model = self.open_emotion_model(self.filename_json, self.filename_h5)
-        #                               y: y + h, x: x + w
-        roi_gray_frame = gray_image[int(y):int(y) + int(h), int(x):int(x) + int(w)]
+        for (x, y, h, w) in face_detect:
 
-        cropped_img = np.expand_dims(np.expand_dims(resize_images(roi_gray_frame, image_size), -1), 0)
+            #                               y: y + h, x: x + w
+            roi_gray_frame = gray_image[int(y):int(y) + int(h), int(x):int(x) + int(w)]
 
-        emotion_prediction = emotion_model.predict(cropped_img)
-        max_index = int(np.argmax(emotion_prediction))
-        cv2.putText(frame, self.emotion_classes[max_index], (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            cropped_img = np.expand_dims(np.expand_dims(resize_images(roi_gray_frame, image_size), -1), 0)
+
+            emotion_prediction = emotion_model.predict(cropped_img)
+            max_index = int(np.argmax(emotion_prediction))
+            cv2.putText(frame, self.emotion_classes[max_index], (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)

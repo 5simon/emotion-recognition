@@ -87,7 +87,7 @@ def resize_images(images, new_size):
 
 def open_data(filename_json, filename_h5):
     # filename_json can be like : 'model_1/model_2.json'
-    # filename_h5 can be like "model_1/model_2.h5"
+    # filename_h5 can be like "model_1/model_3.h5"
 
     file = open(filename_json, 'r')
     model_as_json = file.read()
