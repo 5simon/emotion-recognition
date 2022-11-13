@@ -171,10 +171,11 @@ class Camera:
             # q for quit
             if self.key & 0xFF == ord("q"):
                 print("Exiting....")
-                return False
+                exiting = False
                 break
             else:
-                return True
+                exiting = True
+        return exiting
 
     """
         * openPath opens the folder, in it the images will be saved to testing
