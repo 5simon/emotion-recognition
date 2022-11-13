@@ -13,7 +13,6 @@ if __name__ == "__main__":
     if mode.test:
         camera_window = Camera(which_camera=2)
         camera_window.open_camera()
-        camera_window.save_image_from_camera()
 
     if mode.train:
         model1 = Model(epoches=100)

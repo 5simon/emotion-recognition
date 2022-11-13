@@ -80,9 +80,9 @@ class Camera:
         '''
         face_detect = face_cascade.detectMultiScale(
             self.gray_image,
-            scaleFactor=1.1,
-            minNeighbors=4,
-            minSize=(30, 30),
+            scaleFactor=1.3,
+            minNeighbors=5,
+            #minSize=(30, 30),
         )
         eye_detect = eye_cascade.detectMultiScale(
             self.gray_image,
@@ -158,6 +158,31 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             #self.face_recognition()
+            '''
+                only for temporary
+            '''
+            self.gray_image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+
+            face_cascade = cv2.CascadeClassifier(
+                '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
+            face_detect = face_cascade.detectMultiScale(
+                self.gray_image,
+                scaleFactor=1.3,
+                minNeighbors=5,
+                minSize=(30, 30),
+            )
+            start_punkt, end_punkt = [0, 0], [0, 0]
+            for (self.x, self.y, self.w, self.h) in face_detect:
+                cv2.rectangle(self.frame, (int(self.x), int(self.y - 50)),
+                              (int(self.x) + int(self.w), int(self.y) + int(self.h + 10)), (0, 255, 0), 4)
+                start_punkt = int(self.x), int(self.y)
+                end_punkt = int(self.x) + int(self.w), 2 * (int(self.y) + int(self.h))
+
+                self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.frame, 48), -1), 0)
+            black_background = np.zeros(self.frame.shape[:2], np.uint8)
+            cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+            self.frame_masked = cv2.bitwise_and(self.frame, self.frame, mask=black_background)
+
             # time.sleep(4)
             # test = TestModel(
             #     "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
@@ -175,6 +200,7 @@ class Camera:
                 break
             else:
                 exiting = True
+        self.close_camera()
         return exiting
 
     """
@@ -196,12 +222,12 @@ class Camera:
     def save_image_from_camera(self):
         self.open_path(r'testImages')
         image_index = 0
-        # self.open_camera()
+        self.open_camera()
         wait = 1
-        while self.check_camera:
+        while self.open_camera():
             if wait == 1:
                 file_name = 'frame_' + str(image_index) + '.jpg'
                 cv2.imwrite(file_name, self.frame_masked)
                 image_index = image_index + 1
-                wait = 0
-        #self.close_camera()
+                #wait = 0
+        self.close_camera()
