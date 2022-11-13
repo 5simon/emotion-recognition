@@ -1,4 +1,6 @@
 #from Recognition.face.camera import *
+from datetime import datetime
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -44,4 +46,10 @@ class TestModel:
 
             emotion_prediction = emotion_model.predict(cropped_img)
             max_index = np.argmax(emotion_prediction)
+
             cv2.putText(frame, self.emotion_classes[max_index], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
+            # font = cv2.FONT_HERSHEY_PLAIN
+            # cv2.putText(frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv2.LINE_AA)
+            time_now = datetime.now()
+            print("at ", datetime.strftime(time_now, "%H:%M:%S"), " was", self.emotion_classes[max_index])
