@@ -157,13 +157,13 @@ class Camera:
                 break
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
-            self.face_recognition()
-            time.sleep(4)
-            test = TestModel(
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5"
-            )
-            test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w)
+            #self.face_recognition()
+            # time.sleep(4)
+            # test = TestModel(
+            #     "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
+            #     "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5"
+            # )
+            # test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w)
 
             cv2.imshow("Camera", self.frame)
 
@@ -196,12 +196,12 @@ class Camera:
     def save_image_from_camera(self):
         self.open_path(r'testImages')
         image_index = 0
-        self.open_camera()
+        # self.open_camera()
         wait = 1
-        while self.open_camera():
+        while self.check_camera:
             if wait == 1:
                 file_name = 'frame_' + str(image_index) + '.jpg'
                 cv2.imwrite(file_name, self.frame_masked)
                 image_index = image_index + 1
                 wait = 0
-        self.close_camera()
+        #self.close_camera()
