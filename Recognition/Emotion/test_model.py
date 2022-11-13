@@ -36,12 +36,12 @@ class TestModel:
     def emotion_recognition(self, frame, gray_image, check_camera, x, y, h, w,face_detect, image_size=48):
         emotion_model = self.open_emotion_model(self.filename_json, self.filename_h5)
         for (x, y, h, w) in face_detect:
-
             #                               y: y + h, x: x + w
-            roi_gray_frame = gray_image[int(y):int(y) + int(h), int(x):int(x) + int(w)]
+            # roi_gray_frame = gray_image[int(y):int(y) + int(h), int(x):int(x) + int(w)]
+            roi_gray_frame = gray_image[y:y + h, x:x + w]
 
             cropped_img = np.expand_dims(np.expand_dims(resize_images(roi_gray_frame, image_size), -1), 0)
 
             emotion_prediction = emotion_model.predict(cropped_img)
-            max_index = int(np.argmax(emotion_prediction))
-            cv2.putText(frame, self.emotion_classes[max_index], (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            max_index = np.argmax(emotion_prediction)
+            cv2.putText(frame, self.emotion_classes[max_index], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
