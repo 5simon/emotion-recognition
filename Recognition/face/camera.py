@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 from Recognition.Emotion.test_model import TestModel
-
+import time
 
 # to make to the pics color just switch between grayImage and frame
 class Camera:
@@ -158,10 +158,10 @@ class Camera:
             # font = cv.FONT_HERSHEY_PLAIN
             # cv.putText(self.frame, str(datetime.now()), (20, 40), font, 2, (255, 255, 255,), 2, cv.LINE_AA)
             self.face_recognition()
-
+            time.sleep(4)
             test = TestModel(
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model_2.json",
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_1/model_2.h5"
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5"
             )
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w)
 
@@ -195,10 +195,9 @@ class Camera:
     def save_image_from_camera(self):
         self.open_path(r'testImages')
         image_index = 0
-        wait = 0
         self.open_camera()
+        wait = 1
         while self.open_camera():
-            wait = 1
             if wait == 1:
                 file_name = 'frame_' + str(image_index) + '.jpg'
                 cv2.imwrite(file_name, self.frame_masked)

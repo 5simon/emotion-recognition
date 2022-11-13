@@ -10,10 +10,10 @@ emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fear", 3: "Happy", 4: "Neutral",
 # json_file.close()
 # emotion_model = model_from_json(loaded_model_json)
 #
-# emotion_model.load_weights("model_1/model_2.h5")
+# emotion_model.load_weights("model_1/model_3.h5")
 # print("Loaded model from disk")
 
-emotion_model = open_data("/Recognition/Emotion/model_3/model_2.json", "/Recognition/Emotion/model_3/model_2.h5")
+emotion_model = open_data("/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json", "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5")
 
 # start the webcam feed
 def test():
