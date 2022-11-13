@@ -184,11 +184,11 @@ class Camera:
             self.frame_masked = cv2.bitwise_and(self.frame, self.frame, mask=black_background)
 
             # time.sleep(4)
-            # test = TestModel(
-            #     "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
-            #     "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5"
-            # )
-            # test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w)
+            test = TestModel(
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5"
+            )
+            test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w, face_detect)
 
             cv2.imshow("Camera", self.frame)
 
