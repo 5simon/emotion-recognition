@@ -44,4 +44,5 @@ class TestModel:
 
             emotion_prediction = emotion_model.predict(cropped_img)
             max_index = int(np.argmax(emotion_prediction))
-            cv2.putText(frame, self.emotion_classes[max_index], (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            # cv2.putText(frame, self.emotion_classes[max_index], (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            cv2.putText(frame, self.emotion_classes[max_index], (0, frame.shape[0] - 120), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
