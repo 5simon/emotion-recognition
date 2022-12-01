@@ -37,10 +37,13 @@ class Camera:
     """
 
     def close_camera(self):
-        if self.capture:
-            self.capture.release()
-        if self.output_video:
-            self.output_video.release()
+        capture = self.capture
+        output_video = self.output_video
+
+        if capture:
+            capture.release()
+        if output_video:
+            output_video.release()
         cv2.destroyAllWindows()
 
         print("break all windows")
@@ -50,6 +53,13 @@ class Camera:
     """
 
     def face_recognition(self):
+        frame = self.frame
+        x = self.x
+        y = self.y
+        w = self.w
+        h = self.h
+
+
         face_cascade = cv2.CascadeClassifier(
             '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
         if face_cascade.empty():
@@ -73,7 +83,7 @@ class Camera:
         if nose_cascade.empty():
             raise IOError("unable to load haarcascade_mcs_nose.xml")
 
-        self.gray_image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+        self.gray_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         '''
             detecting features in face
@@ -108,12 +118,12 @@ class Camera:
         start_punkt, end_punkt = [0, 0], [0, 0]
 
         # coordinate for rectangle for face detection :: green
-        for (self.x, self.y, self.w, self.h) in face_detect:
-            cv2.rectangle(self.frame, (int(self.x), int(self.y-50)), (int(self.x) + int(self.w), int(self.y) + int(self.h+10)), (0, 255, 0), 4)
-            start_punkt = int(self.x), int(self.y)
-            end_punkt = int(self.x) + int(self.w), 2 * (int(self.y) + int(self.h))
+        for (x, y, w, h) in face_detect:
+            cv2.rectangle(frame, (int(x), int(y-50)), (int(x) + int(w), int(y) + int(h+10)), (0, 255, 0), 4)
+            start_punkt = int(x), int(y)
+            end_punkt = int(x) + int(w), 2 * (int(y) + int(h))
 
-            self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.frame, 48), -1), 0)
+            self.cropped_img = np.expand_dims(np.expand_dims(resize_images(frame, 48), -1), 0)
 
 
         # '''
@@ -135,7 +145,7 @@ class Camera:
         '''
            black Background from numpy
         '''
-        black_background = np.zeros(self.frame.shape[:2], np.uint8)
+        black_background = np.zeros(frame.shape[:2], np.uint8)
         '''
             create rectangle around the detected face
         '''
@@ -143,15 +153,19 @@ class Camera:
         '''
             insert the circle to the frame
         '''
-        self.frame_masked = cv2.bitwise_and(self.frame, self.frame, mask=black_background)
+        self.frame_masked = cv2.bitwise_and(frame, frame, mask=black_background)
 
     def open_camera(self):
-        if not self.check_camera:
+        check_camera = self.check_camera
+        capture = self.capture
+        key = self.key
+
+        if not check_camera:
             print("can't open the camera!")
             exit()
 
-        while self.check_camera:
-            ret, self.frame = self.capture.read()
+        while check_camera:
+            ret, frame = capture.read()
             if not ret:
                 print("Can't receive frame (stream end?). Exiting ...")
                 break
@@ -192,9 +206,9 @@ class Camera:
 
             cv2.imshow("Camera", self.frame)
 
-            self.key = cv2.waitKey(1)
+            key = cv2.waitKey(1)
             # q for quit
-            if self.key & 0xFF == ord("q"):
+            if key & 0xFF == ord("q"):
                 print("Exiting....")
                 exiting = False
                 break
