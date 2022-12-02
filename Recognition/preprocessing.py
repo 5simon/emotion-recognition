@@ -1,9 +1,10 @@
+import os
 from time import sleep
 
 import cv2
 import dlib
 import numpy as np
-
+import glob
 from Recognition.Emotion.helpFunctions import resize_images
 
 # Define what landmarks you want:
@@ -81,33 +82,63 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(p)
 
 # Create VideoCapture object to get images from the webcam:
-video_capture = cv2.VideoCapture(0)
+# video_capture = cv2.VideoCapture(0)
+#
+# frame_width = int(video_capture.get(3))
+# frame_height = int(video_capture.get(4))
+#
+# size = (frame_width, frame_height)
+image_index = 0
+path = glob.glob("archive/train/sad/*")
+for image in path:
+    img = cv2.imread(image)
+    image_resized = cv2.resize(img, (512, 512))
+    gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
+    rects = detector(gray, 0)
+    start_punkt, end_punkt = [0, 0], [0, 0]
 
-frame_width = int(video_capture.get(3))
-frame_height = int(video_capture.get(4))
+    for (i, rect) in enumerate(rects):
+        cv2.rectangle(image_resized, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+        start_punkt = rect.left(), rect.top()
+        end_punkt = rect.right(), rect.bottom()
 
-size = (frame_width, frame_height)
-
-image_test = cv2.imread("../s.png")
-image_test_1 = cv2.resize(image_test, (512, 512))
-gray_test = cv2.cvtColor(image_test_1, cv2.COLOR_BGR2GRAY)
-rects_test = detector(gray_test, 0)
-
-start_punkt, end_punkt = [0, 0], [0, 0]
-
-for (i, rect) in enumerate(rects_test):
-    cv2.rectangle(image_test_1, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-    start_punkt = rect.left(), rect.top()
-    end_punkt = rect.right(), rect.bottom()
-cropped_img = np.expand_dims(np.expand_dims(resize_images(image_test_1, 512), -1), 0)
-black_background = np.zeros(image_test_1.shape[:2], np.uint8)
-cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
-frame_masked = cv2.bitwise_and(image_test_1, image_test_1, mask=black_background)
-cv2.imshow("just the face", frame_masked)
+    cropped_img = np.expand_dims(np.expand_dims(resize_images(image_resized, 512), -1), 0)
+    black_background = np.zeros(image_resized.shape[:2], np.uint8)
+    cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+    frame_masked = cv2.bitwise_and(image_resized, image_resized, mask=black_background)
+    cv2.imshow("just the face", frame_masked)
 
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+    # os.chdir(r"test")
+
+    file_name = 'test/frame_' + str(image_index) + '.jpg'
+    cv2.imwrite(file_name, frame_masked)
+    image_index = image_index + 1
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+# image_test = cv2.imread("../Training_33331.jpg")
+# image_test_1 = cv2.resize(image_test, (512, 512))
+# gray_test = cv2.cvtColor(image_test_1, cv2.COLOR_BGR2GRAY)
+# rects_test = detector(gray_test, 0)
+#
+# print(rects_test)
+#
+# start_punkt, end_punkt = [0, 0], [0, 0]
+#
+# for (i, rect) in enumerate(rects_test):
+#     cv2.rectangle(image_test, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+#     start_punkt = rect.left(), rect.top()
+#     end_punkt = rect.right(), rect.bottom()
+# cropped_img = np.expand_dims(np.expand_dims(resize_images(image_test_1, 512), -1), 0)
+# black_background = np.zeros(image_test_1.shape[:2], np.uint8)
+# cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+# frame_masked = cv2.bitwise_and(image_test_1, image_test_1, mask=black_background)
+# cv2.imshow("just the face", frame_masked)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
+
 # while True:
 #
 #     # Capture frame from the VideoCapture object:

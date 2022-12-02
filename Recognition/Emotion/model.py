@@ -47,6 +47,7 @@ class Model:
         plt.title('Loss Curves', fontsize=16)
         plt.savefig('T&V-loss.png')
         plt.show()
+
         # Accuracy Curves
         plt.figure(figsize=[8, 6])
         plt.plot(model_history.history['accuracy'], 'r', linewidth=3.0)
