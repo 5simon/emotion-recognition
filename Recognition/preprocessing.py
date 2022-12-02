@@ -88,6 +88,7 @@ predictor = dlib.shape_predictor(p)
 # frame_height = int(video_capture.get(4))
 #
 # size = (frame_width, frame_height)
+#
 image_index = 0
 path = glob.glob("archive/train/sad/*")
 for image in path:
@@ -97,33 +98,42 @@ for image in path:
     rects = detector(gray, 0)
     start_punkt, end_punkt = [0, 0], [0, 0]
 
-    for (i, rect) in enumerate(rects):
-        cv2.rectangle(image_resized, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-        start_punkt = rect.left(), rect.top()
-        end_punkt = rect.right(), rect.bottom()
+    if not rects:
+        file_name = 'test/frame_not_detected_' + str(image_index) + '.jpg'
+        cv2.imwrite(file_name, image_resized)
+        image_index = image_index + 1
 
-    cropped_img = np.expand_dims(np.expand_dims(resize_images(image_resized, 512), -1), 0)
-    black_background = np.zeros(image_resized.shape[:2], np.uint8)
-    cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
-    frame_masked = cv2.bitwise_and(image_resized, image_resized, mask=black_background)
-    cv2.imshow("just the face", frame_masked)
+        cv2.imshow("just the face", image_resized)
+
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    else:
+        for (i, rect) in enumerate(rects):
+            cv2.rectangle(image_resized, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+            start_punkt = rect.left(), rect.top()
+            end_punkt = rect.right(), rect.bottom()
+
+        cropped_img = np.expand_dims(np.expand_dims(resize_images(image_resized, 512), -1), 0)
+        black_background = np.zeros(image_resized.shape[:2], np.uint8)
+        cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+        frame_masked = cv2.bitwise_and(image_resized, image_resized, mask=black_background)
+        cv2.imshow("just the face", frame_masked)
 
 
-    # os.chdir(r"test")
+        # os.chdir(r"test")
 
-    file_name = 'test/frame_' + str(image_index) + '.jpg'
-    cv2.imwrite(file_name, frame_masked)
-    image_index = image_index + 1
+        file_name = 'test/frame_' + str(image_index) + '.jpg'
+        cv2.imwrite(file_name, frame_masked)
+        image_index = image_index + 1
 
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
-# image_test = cv2.imread("../Training_33331.jpg")
+# image_test = cv2.imread("../me.jpg")
 # image_test_1 = cv2.resize(image_test, (512, 512))
 # gray_test = cv2.cvtColor(image_test_1, cv2.COLOR_BGR2GRAY)
 # rects_test = detector(gray_test, 0)
 #
-# print(rects_test)
 #
 # start_punkt, end_punkt = [0, 0], [0, 0]
 #
