@@ -1,6 +1,10 @@
+from time import sleep
+
 import cv2
 import dlib
 import numpy as np
+
+from Recognition.Emotion.helpFunctions import resize_images
 
 # Define what landmarks you want:
 JAWLINE_POINTS = list(range(0, 17))
@@ -84,58 +88,77 @@ frame_height = int(video_capture.get(4))
 
 size = (frame_width, frame_height)
 
+image_test = cv2.imread("../s.png")
+image_test_1 = cv2.resize(image_test, (512, 512))
+gray_test = cv2.cvtColor(image_test_1, cv2.COLOR_BGR2GRAY)
+rects_test = detector(gray_test, 0)
 
-while True:
+start_punkt, end_punkt = [0, 0], [0, 0]
 
-    # Capture frame from the VideoCapture object:
-    ret, frame = video_capture.read()
+for (i, rect) in enumerate(rects_test):
+    cv2.rectangle(image_test_1, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+    start_punkt = rect.left(), rect.top()
+    end_punkt = rect.right(), rect.bottom()
+cropped_img = np.expand_dims(np.expand_dims(resize_images(image_test_1, 512), -1), 0)
+black_background = np.zeros(image_test_1.shape[:2], np.uint8)
+cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+frame_masked = cv2.bitwise_and(image_test_1, image_test_1, mask=black_background)
+cv2.imshow("just the face", frame_masked)
 
-    # Just for debugging purposes:
-    # frame = test_face.copy()
 
-    # Convert frame to grayscale:
-    # frame = cv2.resize(frame,(0,0),fx = 0.5 , fy = 0.5)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    # Detect faces:
-    rects = detector(gray, 0)
-
-    # For each detected face, find the landmark.
-    for (i, rect) in enumerate(rects):
-        # Draw a box around the face:
-        cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-
-        # Get the shape using the predictor:
-        shape = predictor(gray, rect)
-
-        # Convert the shape to numpy array:
-        shape = shape_to_np(shape)
-
-        # Draw all lines connecting the different face parts:
-        # draw_shape_lines_all(shape, frame)
-
-        # Draw jaw line:
-        draw_shape_lines_range(shape, frame, JAWLINE_POINTS)
-
-        # Draw all points and their position:
-        draw_shape_points_pos(shape, frame)
-        # You can also use:
-        # draw_shape_points_pos_range(shape, frame, ALL_POINTS)
-
-        # Draw all shape points:
-        draw_shape_points(shape, frame)
-
-        # Draw left eye, right eye and bridge shape points and positions
-        # draw_shape_points_pos_range(shape, frame, LEFT_EYE_POINTS + RIGHT_EYE_POINTS + NOSE_BRIDGE_POINTS)
-
-    # Display the resulting frame
-    # out.write(frame)
-    cv2.imshow("Landmarks detection using dlib", frame)
-
-    # Press 'q' key to exit
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# Release everything:
-video_capture.release()
+cv2.waitKey(0)
 cv2.destroyAllWindows()
+# while True:
+#
+#     # Capture frame from the VideoCapture object:
+#     ret, frame = video_capture.read()
+#
+#     # Just for debugging purposes:
+#     # frame = test_face.copy()
+#
+#     # Convert frame to grayscale:
+#     # frame = cv2.resize(frame,(0,0),fx = 0.5 , fy = 0.5)
+#     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+#
+#     # Detect faces:
+#     rects = detector(gray, 0)
+#
+#     # For each detected face, find the landmark.
+#     for (i, rect) in enumerate(rects):
+#         # Draw a box around the face:
+#         cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+#
+#         # Get the shape using the predictor:
+#         shape = predictor(gray, rect)
+#
+#         # Convert the shape to numpy array:
+#         shape = shape_to_np(shape)
+#
+#         # Draw all lines connecting the different face parts:
+#         # draw_shape_lines_all(shape, frame)
+#
+#         # Draw jaw line:
+#         draw_shape_lines_range(shape, frame, JAWLINE_POINTS)
+#
+#         # Draw all points and their position:
+#         draw_shape_points_pos(shape, frame)
+#         # You can also use:
+#         # draw_shape_points_pos_range(shape, frame, ALL_POINTS)
+#
+#         # Draw all shape points:
+#         draw_shape_points(shape, frame)
+#
+#         # Draw left eye, right eye and bridge shape points and positions
+#         # draw_shape_points_pos_range(shape, frame, LEFT_EYE_POINTS + RIGHT_EYE_POINTS + NOSE_BRIDGE_POINTS)
+#
+#     # Display the resulting frame
+#     # out.write(frame)
+#     cv2.imshow("Landmarks detection using dlib", frame)
+#
+#     # Press 'q' key to exit
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+#
+# # Release everything:
+# video_capture.release()
+# cv2.destroyAllWindows()
