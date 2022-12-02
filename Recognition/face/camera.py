@@ -165,7 +165,7 @@ class Camera:
             exit()
 
         while check_camera:
-            ret, frame = capture.read()
+            ret, self.frame = capture.read()
             if not ret:
                 print("Can't receive frame (stream end?). Exiting ...")
                 break

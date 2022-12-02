@@ -17,8 +17,8 @@ if __name__ == "__main__":
         camera_window.open_camera()
 
     if mode.train:
-        model1.save_model_info()
         model1 = Model(epoches=100)
+        model1.save_model_info()
 
 
 
