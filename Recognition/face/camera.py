@@ -11,7 +11,7 @@ class Camera:
     """
         variables
     """
-    which_camera = 0
+    which_camera = 2
     capture = cv2.VideoCapture(which_camera)  # 0 for laptop, 2 for external camera
     check_camera = capture.isOpened()
     frame = []
@@ -27,8 +27,10 @@ class Camera:
     h = 0.0
 
     cropped_img = []
-    def __init__(self, which_camera=0):
+    def __init__(self, which_camera):
+
         self.which_camera = which_camera
+        print(self.which_camera)
         print("Camera processing...")
 
 
@@ -157,7 +159,7 @@ class Camera:
 
     def open_camera(self):
         check_camera = self.check_camera
-        capture = self.capture
+        # capture = self.capture
         key = self.key
 
         if not check_camera:
@@ -165,7 +167,7 @@ class Camera:
             exit()
 
         while check_camera:
-            ret, self.frame = capture.read()
+            ret, self.frame = self.capture.read()
             if not ret:
                 print("Can't receive frame (stream end?). Exiting ...")
                 break
@@ -199,8 +201,8 @@ class Camera:
 
             # time.sleep(4)
             test = TestModel(
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.json",
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_3/model_3.h5"
+                "/home/simon/BA/emotion-recognition/model.json",
+                "/home/simon/BA/emotion-recognition//model.h5"
             )
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w, face_detect)
 

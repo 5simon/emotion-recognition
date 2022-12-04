@@ -1,0 +1,49 @@
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ conv2d (Conv2D)             (None, 46, 46, 32)        320
+
+ conv2d_1 (Conv2D)           (None, 44, 44, 64)        18496
+
+ max_pooling2d (MaxPooling2D  (None, 22, 22, 64)       0
+ )
+
+ dropout (Dropout)           (None, 22, 22, 64)        0
+
+ conv2d_2 (Conv2D)           (None, 20, 20, 128)       73856
+
+ max_pooling2d_1 (MaxPooling  (None, 10, 10, 128)      0
+ 2D)
+
+ conv2d_3 (Conv2D)           (None, 8, 8, 128)         147584
+
+ max_pooling2d_2 (MaxPooling  (None, 4, 4, 128)        0
+ 2D)
+
+ dropout_1 (Dropout)         (None, 4, 4, 128)         0
+
+ conv2d_4 (Conv2D)           (None, 2, 2, 256)         295168
+
+ max_pooling2d_3 (MaxPooling  (None, 1, 1, 256)        0
+ 2D)
+
+ dropout_2 (Dropout)         (None, 1, 1, 256)         0
+
+ flatten (Flatten)           (None, 256)               0
+
+ dense (Dense)               (None, 1024)              263168
+
+ dropout_3 (Dropout)         (None, 1024)              0
+
+ dense_1 (Dense)             (None, 7)                 7175
+
+=================================================================
+Total params: 805,767
+Trainable params: 805,767
+Non-trainable params: 0
+_________________________________________________________________
+
+
+
+448/448 [==============================] - 231s 515ms/step - loss: 0.3405 - accuracy: 0.8762 - val_loss: 1.2843 - val_accuracy: 0.6124
+

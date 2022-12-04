@@ -19,6 +19,7 @@ MOUTH_OUTLINE_POINTS = list(range(48, 61))
 MOUTH_INNER_POINTS = list(range(61, 68))
 ALL_POINTS = list(range(0, 68))
 
+
 def draw_shape_lines_range(np_shape, image, range_points, is_closed=False):
     """Draws the shape using lines to connect the different points"""
 
@@ -73,61 +74,62 @@ def shape_to_np(dlib_shape, dtype="int"):
     # Return the list of (x,y) coordinates:
     return coordinates
 
-# Name of the two shape predictors:
-p = "/home/simon/BA/emotion-recognition/shape_predictor_68_face_landmarks.dat"
-# p = "shape_predictor_5_face_landmarks.dat"
 
-# Initialize frontal face detector and shape predictor:
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor(p)
+def preprocessing_images_detect_face(old_path, new_path):
+    # Name of the two shape predictors:
+    p = "/home/simon/BA/emotion-recognition/shape_predictor_68_face_landmarks.dat"
+    # p = "shape_predictor_5_face_landmarks.dat"
 
-# Create VideoCapture object to get images from the webcam:
-# video_capture = cv2.VideoCapture(0)
-#
-# frame_width = int(video_capture.get(3))
-# frame_height = int(video_capture.get(4))
-#
-# size = (frame_width, frame_height)
-#
-image_index = 0
-path = glob.glob("archive/train/sad/*")
-for image in path:
-    img = cv2.imread(image)
-    image_resized = cv2.resize(img, (512, 512))
-    gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
-    rects = detector(gray, 0)
-    start_punkt, end_punkt = [0, 0], [0, 0]
+    # Initialize frontal face detector and shape predictor:
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor(p)
 
-    if not rects:
-        file_name = 'test/frame_not_detected_' + str(image_index) + '.jpg'
-        cv2.imwrite(file_name, image_resized)
-        image_index = image_index + 1
+    # Create VideoCapture object to get images from the webcam:
+    # video_capture = cv2.VideoCapture(0)
+    #
+    # frame_width = int(video_capture.get(3))
+    # frame_height = int(video_capture.get(4))
+    #
+    # size = (frame_width, frame_height)
+    #
+    image_index = 0
+    # path = glob.glob("archive/train/sad/*")
+    path = glob.glob(old_path)
 
-        cv2.imshow("just the face", image_resized)
+    for image in path:
+        img = cv2.imread(image)
+        image_resized = cv2.resize(img, (512, 512))
+        gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
+        rects = detector(gray, 0)
+        start_punkt, end_punkt = [0, 0], [0, 0]
 
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-    else:
-        for (i, rect) in enumerate(rects):
-            cv2.rectangle(image_resized, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-            start_punkt = rect.left(), rect.top()
-            end_punkt = rect.right(), rect.bottom()
+        if not rects:
+            file_name = new_path + '/frame_not_detected_' + str(image_index) + '.jpg'
+            cv2.imwrite(file_name, image_resized)
+            image_index = image_index + 1
 
-        cropped_img = np.expand_dims(np.expand_dims(resize_images(image_resized, 512), -1), 0)
-        black_background = np.zeros(image_resized.shape[:2], np.uint8)
-        cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
-        frame_masked = cv2.bitwise_and(image_resized, image_resized, mask=black_background)
-        cv2.imshow("just the face", frame_masked)
+            # cv2.imshow("just the face", image_resized)
+        else:
+            for (i, rect) in enumerate(rects):
+                # cv2.rectangle(image_resized, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+                start_punkt = rect.left(), rect.top()
+                end_punkt = rect.right(), rect.bottom()
 
+            cropped_img = np.expand_dims(np.expand_dims(resize_images(image_resized, 512), -1), 0)
+            black_background = np.zeros(image_resized.shape[:2], np.uint8)
+            cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+            frame_masked = cv2.bitwise_and(image_resized, image_resized, mask=black_background)
+            #cv2.imshow("just the face", frame_masked)
 
-        # os.chdir(r"test")
+            # os.chdir(r"test")
 
-        file_name = 'test/frame_' + str(image_index) + '.jpg'
-        cv2.imwrite(file_name, frame_masked)
-        image_index = image_index + 1
+            file_name = new_path + '/frame_' + str(image_index) + '.jpg'
+            cv2.imwrite(file_name, frame_masked)
+            image_index = image_index + 1
 
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
+
 
 # image_test = cv2.imread("../me.jpg")
 # image_test_1 = cv2.resize(image_test, (512, 512))
@@ -203,3 +205,38 @@ for image in path:
 # # Release everything:
 # video_capture.release()
 # cv2.destroyAllWindows()
+
+''' Train data '''
+print("it starts for train data")
+preprocessing_images_detect_face("archive/train/sad/*", "data/train/sad")
+print("done-train-Sad")
+preprocessing_images_detect_face("archive/train/fear/*", "data/train/fear")
+print("done-train-fear")
+preprocessing_images_detect_face("archive/train/angry/*", "data/train/angry")
+print("done-train-angry")
+preprocessing_images_detect_face("archive/train/happy/*", "data/train/happy")
+print("done-train-happy")
+preprocessing_images_detect_face("archive/train/surprise/*", "data/train/surprise")
+print("done-train-surprise")
+preprocessing_images_detect_face("archive/train/neutral/*", "data/train/neutral")
+print("done-train-neutral")
+preprocessing_images_detect_face("archive/train/disgust/*", "data/train/disgust")
+print("done-train-disgust")
+
+''' Test data '''
+print("it starts for test data")
+preprocessing_images_detect_face("archive/test/sad/*", "data/test/sad")
+print("done-test-sad")
+preprocessing_images_detect_face("archive/test/fear/*", "data/test/fear")
+print("done-test-fear")
+preprocessing_images_detect_face("archive/test/angry/*", "data/test/angry")
+print("done-test-angry")
+preprocessing_images_detect_face("archive/test/happy/*", "data/test/happy")
+print("done-test-happy")
+preprocessing_images_detect_face("archive/test/surprise/*", "data/test/surprise")
+print("done-test-surprise")
+preprocessing_images_detect_face("archive/test/neutral/*", "data/test/neutral")
+print("done-test-neutral")
+preprocessing_images_detect_face("archive/test/disgust/*", "data/test/disgust")
+print("done-test-disgust")
+
