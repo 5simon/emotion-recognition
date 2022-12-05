@@ -1,11 +1,12 @@
 import os
 from time import sleep
+import argparse
 
 import cv2
 import dlib
 import numpy as np
 import glob
-from Recognition.Emotion.helpFunctions import resize_images
+from Emotion.helpFunctions import resize_images
 
 # Define what landmarks you want:
 JAWLINE_POINTS = list(range(0, 17))
@@ -19,7 +20,10 @@ MOUTH_OUTLINE_POINTS = list(range(48, 61))
 MOUTH_INNER_POINTS = list(range(61, 68))
 ALL_POINTS = list(range(0, 68))
 
-
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--face", type=str, help= "save images with detected face")
+parser.add_argument("-em", "--eyeMouth", type=str, help="save images with just detected mouth and eyes")
+mode = parser.parse_args()
 def draw_shape_lines_range(np_shape, image, range_points, is_closed=False):
     """Draws the shape using lines to connect the different points"""
 
@@ -73,6 +77,37 @@ def shape_to_np(dlib_shape, dtype="int"):
 
     # Return the list of (x,y) coordinates:
     return coordinates
+
+def preprocessing_images_detect_eye_mouth(old_path, new_path):
+
+    p = "/home/simon/BA/emotion-recognition/shape_predictor_68_face_landmarks.dat"
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor(p)
+
+    image_test = cv2.imread("test.jpeg")
+    image_test_1 = cv2.resize(image_test, (512, 512))
+    gray_test = cv2.cvtColor(image_test_1, cv2.COLOR_BGR2GRAY)
+    rects_test = detector(gray_test, 0)
+    cv2.imshow("sad", image_test_1)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    start_punkt, end_punkt = [0, 0], [0, 0]
+
+    shape = predictor(gray_test, rects_test)
+    shape = shape_to_np(shape)
+    print(shape)
+    for (i, rect) in enumerate(rects_test):
+        cv2.rectangle(image_test, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+        start_punkt = rect.left(), rect.top()
+        end_punkt = rect.right(), rect.bottom()
+    cropped_img = np.expand_dims(np.expand_dims(resize_images(image_test_1, 512), -1), 0)
+    black_background = np.zeros(image_test_1.shape[:2], np.uint8)
+    cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+    frame_masked = cv2.bitwise_and(image_test_1, image_test_1, mask=black_background)
+    cv2.imshow("just the face", frame_masked)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def preprocessing_images_detect_face(old_path, new_path):
@@ -205,38 +240,40 @@ def preprocessing_images_detect_face(old_path, new_path):
 # # Release everything:
 # video_capture.release()
 # cv2.destroyAllWindows()
+if mode.face:
+    ''' Train data '''
+    print("it starts for train data")
+    preprocessing_images_detect_face("archive/train/sad/*", "data/train/sad")
+    print("done-train-Sad")
+    preprocessing_images_detect_face("archive/train/fear/*", "data/train/fear")
+    print("done-train-fear")
+    preprocessing_images_detect_face("archive/train/angry/*", "data/train/angry")
+    print("done-train-angry")
+    preprocessing_images_detect_face("archive/train/happy/*", "data/train/happy")
+    print("done-train-happy")
+    preprocessing_images_detect_face("archive/train/surprise/*", "data/train/surprise")
+    print("done-train-surprise")
+    preprocessing_images_detect_face("archive/train/neutral/*", "data/train/neutral")
+    print("done-train-neutral")
+    preprocessing_images_detect_face("archive/train/disgust/*", "data/train/disgust")
+    print("done-train-disgust")
 
-''' Train data '''
-print("it starts for train data")
-preprocessing_images_detect_face("archive/train/sad/*", "data/train/sad")
-print("done-train-Sad")
-preprocessing_images_detect_face("archive/train/fear/*", "data/train/fear")
-print("done-train-fear")
-preprocessing_images_detect_face("archive/train/angry/*", "data/train/angry")
-print("done-train-angry")
-preprocessing_images_detect_face("archive/train/happy/*", "data/train/happy")
-print("done-train-happy")
-preprocessing_images_detect_face("archive/train/surprise/*", "data/train/surprise")
-print("done-train-surprise")
-preprocessing_images_detect_face("archive/train/neutral/*", "data/train/neutral")
-print("done-train-neutral")
-preprocessing_images_detect_face("archive/train/disgust/*", "data/train/disgust")
-print("done-train-disgust")
+    ''' Test data '''
+    print("it starts for test data")
+    preprocessing_images_detect_face("archive/test/sad/*", "data/test/sad")
+    print("done-test-sad")
+    preprocessing_images_detect_face("archive/test/fear/*", "data/test/fear")
+    print("done-test-fear")
+    preprocessing_images_detect_face("archive/test/angry/*", "data/test/angry")
+    print("done-test-angry")
+    preprocessing_images_detect_face("archive/test/happy/*", "data/test/happy")
+    print("done-test-happy")
+    preprocessing_images_detect_face("archive/test/surprise/*", "data/test/surprise")
+    print("done-test-surprise")
+    preprocessing_images_detect_face("archive/test/neutral/*", "data/test/neutral")
+    print("done-test-neutral")
+    preprocessing_images_detect_face("archive/test/disgust/*", "data/test/disgust")
+    print("done-test-disgust")
 
-''' Test data '''
-print("it starts for test data")
-preprocessing_images_detect_face("archive/test/sad/*", "data/test/sad")
-print("done-test-sad")
-preprocessing_images_detect_face("archive/test/fear/*", "data/test/fear")
-print("done-test-fear")
-preprocessing_images_detect_face("archive/test/angry/*", "data/test/angry")
-print("done-test-angry")
-preprocessing_images_detect_face("archive/test/happy/*", "data/test/happy")
-print("done-test-happy")
-preprocessing_images_detect_face("archive/test/surprise/*", "data/test/surprise")
-print("done-test-surprise")
-preprocessing_images_detect_face("archive/test/neutral/*", "data/test/neutral")
-print("done-test-neutral")
-preprocessing_images_detect_face("archive/test/disgust/*", "data/test/disgust")
-print("done-test-disgust")
-
+if mode.eyeMouth:
+    preprocessing_images_detect_eye_mouth("s","s")
