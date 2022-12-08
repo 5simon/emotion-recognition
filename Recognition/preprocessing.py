@@ -177,14 +177,7 @@ if mode.test:
     video_capture = cv2.VideoCapture(2)
     while True:
 
-        # Capture frame from the VideoCapture object:
         ret, frame = video_capture.read()
-
-        # Just for debugging purposes:
-        # frame = test_face.copy()
-
-        # Convert frame to grayscale:
-        # frame = cv2.resize(frame,(0,0),fx = 0.5 , fy = 0.5)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Detect faces:
@@ -201,62 +194,6 @@ if mode.test:
             eye1 = cv2.rectangle(frame, (shape.part(17).x, shape.part(17).y-15),(shape.part(28).x, shape.part(28).y+15),(255,0, 0), 5)
             eye1 = cv2.rectangle(frame, (shape.part(15).x, shape.part(18).y-15),(shape.part(28).x, shape.part(28).y+15),(0,255, 0), 5)
             eye1 = cv2.rectangle(frame, (shape.part(49).x-20, shape.part(49).y-15),(shape.part(55).x+20, shape.part(55).y+15),(0,0,255), 5)
-
-
-            # eye1 = cv2.circle(frame, (shape.part(37).x, shape.part(37).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(38).x, shape.part(38).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(39).x, shape.part(39).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(40).x, shape.part(40).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(41).x, shape.part(41).y), radius=0, color=(0, 255, 0), thickness=3)
-            #
-            # eye1_b = cv2.circle(frame, (shape.part(17).x, shape.part(17).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b = cv2.circle(frame, (shape.part(18).x, shape.part(18).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b = cv2.circle(frame, (shape.part(19).x, shape.part(19).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b = cv2.circle(frame, (shape.part(20).x, shape.part(20).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b = cv2.circle(frame, (shape.part(21).x, shape.part(21).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b = cv2.circle(frame, (shape.part(22).x, shape.part(22).y), radius=0, color=(0, 255, 0), thickness=3)
-            #
-            # eye1_b2 = cv2.circle(frame, (shape.part(23).x, shape.part(23).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b2 = cv2.circle(frame, (shape.part(24).x, shape.part(24).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b2 = cv2.circle(frame, (shape.part(25).x, shape.part(25).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b2 = cv2.circle(frame, (shape.part(26).x, shape.part(26).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1_b2 = cv2.circle(frame, (shape.part(27).x, shape.part(27).y), radius=0, color=(0, 255, 0), thickness=3)
-            # # eye1_b2 = cv2.circle(frame, (shape.part(28).x, shape.part(28).y), radius=0, color=(0, 255, 0), thickness=3)
-            #
-            # eye1 = cv2.circle(frame, (shape.part(42).x , shape.part(42).y),radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(43).x, shape.part(43).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(44).x , shape.part(44).y), radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(45).x , shape.part(45).y),radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(46).x , shape.part(46).y),radius=0, color=(0, 255, 0), thickness=3)
-            # eye1 = cv2.circle(frame, (shape.part(47).x, shape.part(47).y), radius=0, color=(0, 255, 0), thickness=3)
-
-            # Convert the shape to numpy array:
-
-            shape = shape_to_np(shape)
-
-            # Draw all lines connecting the different face parts:
-            # draw_shape_lines_all(shape, frame)
-
-            # Draw jaw line:
-            # draw_shape_lines_range(shape, frame, RIGHT_EYEBROW_POINTS)
-            # draw_shape_lines_range(shape, frame, LEFT_EYEBROW_POINTS)
-            # draw_shape_lines_range(shape, frame, LEFT_EYE_POINTS)
-            # draw_shape_lines_range(shape, frame, RIGHT_EYE_POINTS)
-            # draw_shape_lines_range(shape, frame, MOUTH_INNER_POINTS)
-            # draw_shape_lines_range(shape, frame, MOUTH_OUTLINE_POINTS)
-
-
-
-            # Draw all points and their position:
-            # draw_shape_points_pos(shape, frame)
-            # You can also use:
-            # draw_shape_points_pos_range(shape, frame, ALL_POINTS)
-
-            # Draw all shape points:
-            # draw_shape_points(shape, frame)
-
-            # Draw left eye, right eye and bridge shape points and positions
-            # draw_shape_points_pos_range(shape, frame, LEFT_EYE_POINTS + RIGHT_EYE_POINTS + NOSE_BRIDGE_POINTS)
 
         # Display the resulting frame
         cv2.imshow("Landmarks detection using dlib", frame)
