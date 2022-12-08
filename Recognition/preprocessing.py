@@ -83,36 +83,33 @@ def shape_to_np(dlib_shape, dtype="int"):
     return coordinates
 
 def preprocessing_images_detect_eye_mouth(old_path, new_path):
-
     p = "/home/simon/BA/emotion-recognition/shape_predictor_68_face_landmarks.dat"
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(p)
+    frame = cv2.imread("frame_30.jpg")
+    image_resized = cv2.resize(frame, (512, 512))
 
-    image_test = cv2.imread("test.jpeg")
-    image_test_1 = cv2.resize(image_test, (512, 512))
-    gray_test = cv2.cvtColor(image_test_1, cv2.COLOR_BGR2GRAY)
-    rects_test = detector(gray_test, 0)
-    cv2.imshow("sad", image_test_1)
+    gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
+
+    rects = detector(gray, 0)
+    if not rects:
+        print("no face")
+    for (i, rect) in enumerate(rects):
+        # Draw a box around the face:
+        cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+        # Get the shape using the predictor:
+        shape = predictor(gray, rect)
+
+        eye1 = cv2.rectangle(image_resized, (shape.part(17).x, shape.part(17).y - 30),
+                             (shape.part(28).x, shape.part(28).y + 15), (255, 0, 0), 5)
+        eye1 = cv2.rectangle(image_resized, (shape.part(15).x, shape.part(18).y - 15),
+                             (shape.part(28).x, shape.part(28).y + 15), (0, 255, 0), 5)
+        eye1 = cv2.rectangle(image_resized, (shape.part(49).x - 30, shape.part(49).y - 15),
+                             (shape.part(55).x + 30, shape.part(55).y + 15), (0, 0, 255), 5)
+
+    # Display the resulting frame
+    cv2.imshow("Landmarks detection using dlib", image_resized)
     cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    start_punkt, end_punkt = [0, 0], [0, 0]
-
-    shape = predictor(gray_test, rects_test)
-    shape = shape_to_np(shape)
-    print(shape)
-    for (i, rect) in enumerate(rects_test):
-        cv2.rectangle(image_test, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-        start_punkt = rect.left(), rect.top()
-        end_punkt = rect.right(), rect.bottom()
-    cropped_img = np.expand_dims(np.expand_dims(resize_images(image_test_1, 512), -1), 0)
-    black_background = np.zeros(image_test_1.shape[:2], np.uint8)
-    cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
-    frame_masked = cv2.bitwise_and(image_test_1, image_test_1, mask=black_background)
-    cv2.imshow("just the face", frame_masked)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
 
 def preprocessing_images_detect_face(old_path, new_path):
     # Name of the two shape predictors:
@@ -190,7 +187,6 @@ if mode.test:
             # Get the shape using the predictor:
             shape = predictor(gray, rect)
 
-            # eye1 = cv2.rectangle(frame, (shape.part(18).x, shape.part(18).y),(shape.part(37).x, shape.part(37).y),(0, 255, 0), 5)
             eye1 = cv2.rectangle(frame, (shape.part(17).x, shape.part(17).y-15),(shape.part(28).x, shape.part(28).y+15),(255,0, 0), 5)
             eye1 = cv2.rectangle(frame, (shape.part(15).x, shape.part(18).y-15),(shape.part(28).x, shape.part(28).y+15),(0,255, 0), 5)
             eye1 = cv2.rectangle(frame, (shape.part(49).x-20, shape.part(49).y-15),(shape.part(55).x+20, shape.part(55).y+15),(0,0,255), 5)
