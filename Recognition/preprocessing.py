@@ -89,27 +89,66 @@ def preprocessing_images_detect_eye_mouth(old_path, new_path):
     frame = cv2.imread("frame_30.jpg")
     image_resized = cv2.resize(frame, (512, 512))
 
-    gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
 
-    rects = detector(gray, 0)
-    if not rects:
-        print("no face")
-    for (i, rect) in enumerate(rects):
-        # Draw a box around the face:
-        cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-        # Get the shape using the predictor:
-        shape = predictor(gray, rect)
+    image_index_1 = 0
+    image_index_2 = 0
+    path = glob.glob(old_path)
 
-        eye1 = cv2.rectangle(image_resized, (shape.part(17).x, shape.part(17).y - 30),
-                             (shape.part(28).x, shape.part(28).y + 15), (255, 0, 0), 5)
-        eye1 = cv2.rectangle(image_resized, (shape.part(15).x, shape.part(18).y - 15),
-                             (shape.part(28).x, shape.part(28).y + 15), (0, 255, 0), 5)
-        eye1 = cv2.rectangle(image_resized, (shape.part(49).x - 30, shape.part(49).y - 15),
-                             (shape.part(55).x + 30, shape.part(55).y + 15), (0, 0, 255), 5)
+    for image in path:
+        img = cv2.imread(image)
+        image_resized = cv2.resize(img, (512, 512))
+        gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
+        rects = detector(gray, 0)
 
-    # Display the resulting frame
-    cv2.imshow("Landmarks detection using dlib", image_resized)
-    cv2.waitKey(0)
+        if not rects:
+            file_name = new_path + '/frame_not_detected_' + str(image_index_1) + '.jpg'
+            cv2.imwrite(file_name, image_resized)
+            image_index_1 = image_index_1 + 1
+
+            # cv2.imshow("just the face", image_resized)
+        else:
+            for (i, rect) in enumerate(rects):
+                # Draw a box around the face:
+                cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
+                # Get the shape using the predictor:
+                shape = predictor(gray, rect)
+
+                start_punkt_1 = shape.part(17).x, shape.part(17).y - 30
+                end_punkt_1 = shape.part(28).x, shape.part(28).y + 15
+
+                start_punkt_2 = shape.part(15).x, shape.part(18).y - 15
+                end_punkt_2 = shape.part(28).x, shape.part(28).y + 15
+
+                start_punkt_3 = shape.part(49).x - 30, shape.part(49).y - 15
+                end_punkt_3 = shape.part(55).x + 30, shape.part(55).y + 15
+
+                # eye = cv2.rectangle(image_resized, (shape.part(17).x, shape.part(17).y - 30),
+                #                      (shape.part(28).x, shape.part(28).y + 15), (255, 0, 0), 5)
+                # eye = cv2.rectangle(image_resized, (shape.part(15).x, shape.part(18).y - 15),
+                #                      (shape.part(28).x, shape.part(28).y + 15), (0, 255, 0), 5)
+                # mouth = cv2.rectangle(image_resized, (shape.part(49).x - 30, shape.part(49).y - 15),
+                #                      (shape.part(55).x + 30, shape.part(55).y + 15), (0, 0, 255), 5)
+            black_background = np.zeros(image_resized.shape[:2], np.uint8)
+
+            cv2.rectangle(black_background, start_punkt_1, end_punkt_1, (255, 255, 255), -1)
+            cv2.rectangle(black_background, start_punkt_2, end_punkt_2, (255, 255, 255), -1)
+            cv2.rectangle(black_background, start_punkt_3, end_punkt_3, (255, 255, 255), -1)
+
+            frame_masked = cv2.bitwise_and(image_resized, image_resized, mask=black_background)
+            # cv2.imshow("just the face", frame_masked)
+
+            # os.chdir(r"test")
+
+            file_name = new_path + '/frame_' + str(image_index_2) + '.jpg'
+            cv2.imwrite(file_name, frame_masked)
+            image_index_2 = image_index_2 + 1
+
+            # Display the resulting frame
+            # cv2.imshow("Landmarks detection using dlib", image_resized)
+            # cv2.waitKey(0)
+    print(image_index_1)
+    print(image_index_2)
+
 
 def preprocessing_images_detect_face(old_path, new_path):
     # Name of the two shape predictors:
@@ -180,6 +219,7 @@ if mode.test:
         # Detect faces:
         rects = detector(gray, 0)
 
+
         # For each detected face, find the landmark.
         for (i, rect) in enumerate(rects):
             # Draw a box around the face:
@@ -187,12 +227,27 @@ if mode.test:
             # Get the shape using the predictor:
             shape = predictor(gray, rect)
 
+            start_punkt_1 = shape.part(17).x, shape.part(17).y-15
+            end_punkt_1 = shape.part(28).x, shape.part(28).y+15
+
+            start_punkt_2 = shape.part(15).x, shape.part(18).y-15
+            end_punkt_2 = shape.part(28).x, shape.part(28).y+15
+
+            start_punkt_3 = shape.part(49).x-20, shape.part(49).y-15
+            end_punkt_3 = shape.part(55).x+20, shape.part(55).y+15
+
             eye1 = cv2.rectangle(frame, (shape.part(17).x, shape.part(17).y-15),(shape.part(28).x, shape.part(28).y+15),(255,0, 0), 5)
             eye1 = cv2.rectangle(frame, (shape.part(15).x, shape.part(18).y-15),(shape.part(28).x, shape.part(28).y+15),(0,255, 0), 5)
-            eye1 = cv2.rectangle(frame, (shape.part(49).x-20, shape.part(49).y-15),(shape.part(55).x+20, shape.part(55).y+15),(0,0,255), 5)
+            mouth = cv2.rectangle(frame, (shape.part(49).x-20, shape.part(49).y-15),(shape.part(55).x+20, shape.part(55).y+15),(0,0,255), 5)
+            black_background = np.zeros(frame.shape[:2], np.uint8)
 
+            cv2.rectangle(black_background, start_punkt_1, end_punkt_1, (255, 255, 255), -1)
+            cv2.rectangle(black_background, start_punkt_2, end_punkt_2, (255, 255, 255), -1)
+            cv2.rectangle(black_background, start_punkt_3, end_punkt_3, (255, 255, 255), -1)
+
+            frame_masked = cv2.bitwise_and(frame, frame, mask=black_background)
         # Display the resulting frame
-        cv2.imshow("Landmarks detection using dlib", frame)
+        cv2.imshow("Landmarks detection using dlib", frame_masked)
 
         # Press 'q' key to exit
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -238,4 +293,36 @@ if mode.face:
     print("done-test-disgust")
 
 if mode.eyeMouth:
-    preprocessing_images_detect_eye_mouth("s","s")
+    ''' Train data '''
+    print("it starts for train data")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/sad/*","/home/simon/BA/data/train/sad")
+    print("done-train-Sad")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/fear/*","/home/simon/BA/data/train/fear")
+    print("done-train-fear")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/happy/*","/home/simon/BA/data/train/happy")
+    print("done-train-happy")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/angry/*","/home/simon/BA/data/train/angry")
+    print("done-train-angry")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/disgust/*","/home/simon/BA/data/train/disgust")
+    print("done-train-disgust")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/surprise/*","/home/simon/BA/data/train/surprise")
+    print("done-train-surprise")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/train/neutral/*","/home/simon/BA/data/train/neutral")
+    print("done-train-neutral")
+
+    ''' Test data '''
+    print("it starts for test data")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/sad/*", "/home/simon/BA/data/test/sad")
+    print("done-test-Sad")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/fear/*", "/home/simon/BA/data/test/fear")
+    print("done-test-fear")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/happy/*", "/home/simon/BA/data/test/happy")
+    print("done-test-happy")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/angry/*", "/home/simon/BA/data/test/angry")
+    print("done-test-angry")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/disgust/*", "/home/simon/BA/data/test/disgust")
+    print("done-test-disgust")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/surprise/*", "/home/simon/BA/data/test/surprise")
+    print("done-test-surprise")
+    preprocessing_images_detect_eye_mouth("/home/simon/BA/archive/test/neutral/*", "/home/simon/BA/data/test/neutral")
+    print("done-test-neutral")
