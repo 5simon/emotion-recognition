@@ -23,7 +23,7 @@ ALL_POINTS = list(range(0, 68))
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--face", type=str, help= "save images with detected face")
 parser.add_argument("-em", "--eyeMouth", type=str, help="save images with just detected mouth and eyes")
-parser.add_argument("-tt", "--test", type=str, help="Test")
+
 mode = parser.parse_args()
 def draw_shape_lines_range(np_shape, image, range_points, is_closed=False):
     """Draws the shape using lines to connect the different points"""
@@ -204,58 +204,6 @@ def preprocessing_images_detect_face(old_path, new_path):
 
             # cv2.waitKey(0)
             # cv2.destroyAllWindows()
-
-if mode.test:
-    p = "/home/simon/BA/emotion-recognition/shape_predictor_68_face_landmarks.dat"
-    detector = dlib.get_frontal_face_detector()
-    predictor = dlib.shape_predictor(p)
-
-    video_capture = cv2.VideoCapture(2)
-    while True:
-
-        ret, frame = video_capture.read()
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Detect faces:
-        rects = detector(gray, 0)
-
-
-        # For each detected face, find the landmark.
-        for (i, rect) in enumerate(rects):
-            # Draw a box around the face:
-            cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), (0, 255, 0), 1)
-            # Get the shape using the predictor:
-            shape = predictor(gray, rect)
-
-            start_punkt_1 = shape.part(17).x, shape.part(17).y-15
-            end_punkt_1 = shape.part(28).x, shape.part(28).y+15
-
-            start_punkt_2 = shape.part(15).x, shape.part(18).y-15
-            end_punkt_2 = shape.part(28).x, shape.part(28).y+15
-
-            start_punkt_3 = shape.part(49).x-20, shape.part(49).y-15
-            end_punkt_3 = shape.part(55).x+20, shape.part(55).y+15
-
-            eye1 = cv2.rectangle(frame, (shape.part(17).x, shape.part(17).y-15),(shape.part(28).x, shape.part(28).y+15),(255,0, 0), 5)
-            eye1 = cv2.rectangle(frame, (shape.part(15).x, shape.part(18).y-15),(shape.part(28).x, shape.part(28).y+15),(0,255, 0), 5)
-            mouth = cv2.rectangle(frame, (shape.part(49).x-20, shape.part(49).y-15),(shape.part(55).x+20, shape.part(55).y+15),(0,0,255), 5)
-            black_background = np.zeros(frame.shape[:2], np.uint8)
-
-            cv2.rectangle(black_background, start_punkt_1, end_punkt_1, (255, 255, 255), -1)
-            cv2.rectangle(black_background, start_punkt_2, end_punkt_2, (255, 255, 255), -1)
-            cv2.rectangle(black_background, start_punkt_3, end_punkt_3, (255, 255, 255), -1)
-
-            frame_masked = cv2.bitwise_and(frame, frame, mask=black_background)
-        # Display the resulting frame
-        cv2.imshow("Landmarks detection using dlib", frame_masked)
-
-        # Press 'q' key to exit
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    # Release everything:
-    video_capture.release()
-    cv2.destroyAllWindows()
 
 if mode.face:
     ''' Train data '''
