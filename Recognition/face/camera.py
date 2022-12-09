@@ -201,8 +201,8 @@ class Camera:
 
             # time.sleep(4)
             test = TestModel(
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_4_face_re_all_pics/model.json",
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_4_face_re_all_pics/model.h5"
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_4_eye_mouth/model.json",
+                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_4_eye_mouth/model.h5"
             )
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w, face_detect)
 
