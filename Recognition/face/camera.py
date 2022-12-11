@@ -11,7 +11,7 @@ class Camera:
     """
         variables
     """
-    which_camera = 2
+    which_camera = 0
     capture = cv2.VideoCapture(which_camera)  # 0 for laptop, 2 for external camera
     check_camera = capture.isOpened()
     frame = []
@@ -27,9 +27,14 @@ class Camera:
     h = 0.0
 
     cropped_img = []
-    def __init__(self, which_camera):
+    # to test
+    filename_json = ""
+    filename_h5 = ""
+    def __init__(self, which_camera,filename_json,filename_h5):
 
         self.which_camera = which_camera
+        self.filename_json = filename_json
+        self.filename_h5 = filename_h5
         print(self.which_camera)
         print("Camera processing...")
 
@@ -200,10 +205,7 @@ class Camera:
             self.frame_masked = cv2.bitwise_and(self.frame, self.frame, mask=black_background)
 
             # time.sleep(4)
-            test = TestModel(
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_4_eye_mouth/model.json",
-                "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_4_eye_mouth/model.h5"
-            )
+            test = TestModel(self.filename_json, self.filename_h5)
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w, face_detect)
 
             cv2.imshow("Camera", self.frame)
