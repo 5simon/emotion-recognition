@@ -13,7 +13,8 @@ mode = parser.parse_args()
 
 if __name__ == "__main__":
     if mode.test:
-        camera_window = Camera(which_camera=0)
+        camera_window = Camera(which_camera=2, filename_json="Recognition/Emotion/model_4_face_re_all_pics/model.json",
+                               filename_h5="Recognition/Emotion/model_4_face_re_all_pics/model.h5")
         camera_window.open_camera()
 
     if mode.train:
