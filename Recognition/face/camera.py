@@ -5,6 +5,7 @@ import numpy as np
 
 from Recognition.Emotion.test_model import TestModel
 import time
+import screeninfo
 
 # to make to the pics color just switch between grayImage and frame
 class Camera:
@@ -207,6 +208,12 @@ class Camera:
             # time.sleep(4)
             test = TestModel(self.filename_json, self.filename_h5)
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w, face_detect)
+
+            # full screen
+            screen = screeninfo.get_monitors()[0]
+            cv2.namedWindow("Camera", cv2.WND_PROP_FULLSCREEN)
+            cv2.moveWindow("Camera", screen.x, screen.y)
+            cv2.setWindowProperty("Camera", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
             cv2.imshow("Camera", self.frame)
 
