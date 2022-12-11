@@ -31,6 +31,21 @@ Happy coding :grin:
 * [Load dataset](Recognition/Emotion/help_functions.py)
   * **Train**: by calling *load_dataset("Recognition/archive/train/")* 
   * **Test**: by calling *load_dataset("Recognition/archive/test/")*
+
+# Preprocessing
+* to detect face and to build a black mask around it
+  ```
+    cd Recognition
+    python3 preprocessing.py -f face
+  ```
+
+* to detect mouth & eyes and to build a black mask around them
+  ```
+    cd Recognition
+    python3 preprocessing.py -em eyeMouth
+  ```
+
+    
 # uninstall package
 ```
 pip uninstall "package name"
