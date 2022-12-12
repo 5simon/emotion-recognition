@@ -46,6 +46,20 @@ Happy coding :grin:
     python3 preprocessing.py -em eyeMouth
   ```
 
+# Screenshots
+* Angry:
+![](pictures_for_test/with_Emotion/Screenshot_An.png)
+* Fear:
+![](pictures_for_test/with_Emotion/Screenshot%20from%202022-12-12%2012-12-44.png)
+* Disgusted:
+![](pictures_for_test/with_Emotion/Screenshot%20from%202022-12-12%2012-13-09.png)
+* Neutral:
+![](pictures_for_test/with_Emotion/Screenshot%20from%202022-12-12%2012-14-19.png)
+* Happy:
+![](pictures_for_test/with_Emotion/Screenshot_Ha.png)
+* Surptised:
+![](pictures_for_test/with_Emotion/Screenshot_Su%20.png)
+
     
 # uninstall package
 ```
