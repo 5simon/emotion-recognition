@@ -1,4 +1,6 @@
 #from Recognition.face.camera import *
+import random
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -46,7 +48,7 @@ class TestModel:
 
             emotion_prediction = emotion_model.predict(cropped_img)
             max_index = int(np.argmax(emotion_prediction))
-            prediction_in_percent = str((emotion_prediction[0][max_index]))
+            prediction_in_percent = str(("%.2f" % emotion_prediction[0][max_index]))
             cv2.putText(frame, self.emotion_classes[max_index] + ": " + prediction_in_percent + "%", (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
             # put all emotions:
@@ -55,55 +57,55 @@ class TestModel:
             color_green = (0, 255, 0)
             if self.emotion_classes[0] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[0] + ": " + str("%.2f" % emotion_prediction[0][0]) + "%",
-                            (0, frame.shape[0] - 500), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 500 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
             else:
                 cv2.putText(frame, self.emotion_classes[0] + ": " + str("%.2f" % emotion_prediction[0][0]) + "%",
-                            (0, frame.shape[0] - 500), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 500 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
 
             if self.emotion_classes[1] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[1] + ": " + str("%.2f" % emotion_prediction[0][1]) + "%",
-                            (0, frame.shape[0] - 450), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 450 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
             else:
                 cv2.putText(frame, self.emotion_classes[1] + ": " + str("%.2f" % emotion_prediction[0][1]) + "%",
-                            (0, frame.shape[0] - 450), cv2.FONT_HERSHEY_SIMPLEX, 1, color_black, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 450 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_black, 2, cv2.LINE_AA)
 
             if self.emotion_classes[2] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[2] + ": " + str("%.2f" % emotion_prediction[0][2]) + "%",
-                            (0, frame.shape[0] - 400), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 400 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
             else:
                 cv2.putText(frame, self.emotion_classes[2] + ": " + str("%.2f" % emotion_prediction[0][2]) + "%",
-                            (0, frame.shape[0] - 400), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 400 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
 
             if self.emotion_classes[3] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[3] + ": " + str("%.2f" % emotion_prediction[0][3]) + "%",
-                            (0, frame.shape[0] - 350), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 350 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
             else:
                 cv2.putText(frame, self.emotion_classes[3] + ": " + str("%.2f" % emotion_prediction[0][3]) + "%",
-                            (0, frame.shape[0] - 350), cv2.FONT_HERSHEY_SIMPLEX, 1, color_black, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 350 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_black, 2, cv2.LINE_AA)
 
             if self.emotion_classes[4] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[4] + ": " + str("%.2f" % emotion_prediction[0][4]) + "%",
-                            (0, frame.shape[0] - 300), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 300 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
 
             else:
                 cv2.putText(frame, self.emotion_classes[4] + ": " + str("%.2f" % emotion_prediction[0][4]) + "%",
-                            (0, frame.shape[0] - 300), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 300 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
 
             if self.emotion_classes[5] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[5] + ": " + str("%.2f" % emotion_prediction[0][5]) + "%",
-                            (0, frame.shape[0] - 250), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 250 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
 
             else:
                 cv2.putText(frame, self.emotion_classes[5] + ": " + str("%.2f" % emotion_prediction[0][5]) + "%",
-                            (0, frame.shape[0] - 250), cv2.FONT_HERSHEY_SIMPLEX, 1, color_black, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 250 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_black, 2, cv2.LINE_AA)
 
             if self.emotion_classes[6] == self.emotion_classes[max_index]:
                 cv2.putText(frame, self.emotion_classes[6] + ": " + str("%.2f" % emotion_prediction[0][6]) + "%",
-                            (0, frame.shape[0] - 200), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 200 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_green, 2, cv2.LINE_AA)
 
             else:
                 cv2.putText(frame, self.emotion_classes[6] + ": " + str("%.2f" % emotion_prediction[0][6]) + "%",
-                            (0, frame.shape[0] - 200), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
+                            (0, frame.shape[0] - 200 + 175), cv2.FONT_HERSHEY_SIMPLEX, 1, color_white, 2, cv2.LINE_AA)
 
             # print all emotions:
             print("you were at ", datetime.datetime.now().strftime("%H:%M:%S"), self.emotion_classes[0], " with ", str("%.2f" % emotion_prediction[0][0]), "%" + " = " + str(emotion_prediction[0][0]))
@@ -113,3 +115,4 @@ class TestModel:
             print("you were at ", datetime.datetime.now().strftime("%H:%M:%S"), self.emotion_classes[4], " with ", str("%.2f" % emotion_prediction[0][4]), "%" + " = " + str(emotion_prediction[0][4]))
             print("you were at ", datetime.datetime.now().strftime("%H:%M:%S"), self.emotion_classes[5], " with ", str("%.2f" % emotion_prediction[0][5]), "%" + " = " + str(emotion_prediction[0][5]))
             print("you were at ", datetime.datetime.now().strftime("%H:%M:%S"), self.emotion_classes[6], " with ", str("%.2f" % emotion_prediction[0][6]), "%" + " = " + str(emotion_prediction[0][6]))
+

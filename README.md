@@ -17,7 +17,8 @@ Happy coding :grin:
       -t TEST, --test TEST      test model
       -l TRAIN, --train TRAIN   train model
 
-* to testing:  `python3 main.py -t test`
+* to testing by webcam:  `python3 main.py -t testCam`
+* to testing by image:  `python3 main.py -i "image_path"`
 * to training: `python3 main.py -l train `
 * tensorBoard: after training run following commands
 

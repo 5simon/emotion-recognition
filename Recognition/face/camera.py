@@ -163,6 +163,47 @@ class Camera:
         '''
         self.frame_masked = cv2.bitwise_and(frame, frame, mask=black_background)
 
+    def determine_emotion_by_image(self, frame_path, size):
+        self.frame = cv2.imread(frame_path)
+        if size > 0:
+            resize_images(self.frame, size)
+        self.gray_image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+        face_cascade = cv2.CascadeClassifier(
+            '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
+        face_detect = face_cascade.detectMultiScale(
+            self.gray_image,
+            scaleFactor=1.3,
+            minNeighbors=5,
+            minSize=(30, 30),
+        )
+        start_punkt, end_punkt = [0, 0], [0, 0]
+        for (self.x, self.y, self.w, self.h) in face_detect:
+            # cv2.rectangle(self.frame, (int(self.x), int(self.y - 50)),
+            #               (int(self.x) + int(self.w), int(self.y) + int(self.h + 10)), (0, 255, 0), 4)
+            start_punkt = int(self.x), int(self.y)
+            end_punkt = int(self.x) + int(self.w), 2 * (int(self.y) + int(self.h))
+
+            self.cropped_img = np.expand_dims(np.expand_dims(resize_images(self.frame, 48), -1), 0)
+        black_background = np.zeros(self.frame.shape[:2], np.uint8)
+        cv2.rectangle(black_background, start_punkt, end_punkt, (255, 255, 255), -1)
+        self.frame_masked = cv2.bitwise_and(self.frame, self.frame, mask=black_background)
+
+        # time.sleep(4)
+        test = TestModel(self.filename_json, self.filename_h5)
+        test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w,
+                                 face_detect)
+
+        # full screen
+        if size > 0:
+            cv2.imshow("picture", self.frame)
+        else:
+            screen = screeninfo.get_monitors()[0]
+            cv2.namedWindow("picture", cv2.WND_PROP_FULLSCREEN)
+            cv2.moveWindow("picture", screen.x, screen.y)
+            cv2.setWindowProperty("picture", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+            cv2.imshow("picture", self.frame)
+
+        cv2.waitKey(0)
     def open_camera(self):
         check_camera = self.check_camera
         # capture = self.capture
