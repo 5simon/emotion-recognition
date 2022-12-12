@@ -204,7 +204,7 @@ class Camera:
             cv2.imshow("picture", self.frame)
 
         cv2.waitKey(0)
-    def open_camera(self):
+    def open_camera(self, full_screen=False):
         check_camera = self.check_camera
         # capture = self.capture
         key = self.key
@@ -251,12 +251,16 @@ class Camera:
             test.emotion_recognition(self.frame, self.gray_image, self.check_camera, self.x, self.y, self.h, self.w, face_detect)
 
             # full screen
-            screen = screeninfo.get_monitors()[0]
-            cv2.namedWindow("Camera", cv2.WND_PROP_FULLSCREEN)
-            cv2.moveWindow("Camera", screen.x, screen.y)
-            cv2.setWindowProperty("Camera", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+            if full_screen == True:
+                screen = screeninfo.get_monitors()[0]
+                cv2.namedWindow("Camera", cv2.WND_PROP_FULLSCREEN)
+                cv2.moveWindow("Camera", screen.x, screen.y)
+                cv2.setWindowProperty("Camera", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-            cv2.imshow("Camera", self.frame)
+                cv2.imshow("Camera", self.frame)
+            else:
+                cv2.imshow("Camera", self.frame)
+
 
             key = cv2.waitKey(1)
             # q for quit

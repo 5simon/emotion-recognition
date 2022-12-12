@@ -1,6 +1,7 @@
 import os
 import tensorflow as tf
 import cv2
+from matplotlib import pyplot as plt
 
 '''
     loading alle images for testing and training
