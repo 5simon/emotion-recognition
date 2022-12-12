@@ -47,6 +47,19 @@ Happy coding :grin:
   ```
 
 # Screenshots
+## APP
+### without preprocessing:
+![](Recognition/Emotion/model_2/T&V-accuracy.png)
+![](Recognition/Emotion/model_2/T&V-loss.png)
+
+### with detected the whole features in face:
+![](Recognition/Emotion/model_4_face_re_all_pics/T&V-accuracy.png)
+![](Recognition/Emotion/model_4_face_re_all_pics/T&V-loss.png)
+
+### with detected just eyes and mouth of the face:
+![](Recognition/Emotion/model_4_eye_mouth/T&V-accuracy.png)
+![](Recognition/Emotion/model_4_eye_mouth/T&V-loss.png)
+## result
 * Angry:
 ![](pictures_for_test/with_Emotion/Screenshot_An.png)
 * Fear:
