@@ -59,6 +59,10 @@ Happy coding :grin:
 ### with detected just eyes and mouth of the face:
 ![](Recognition/Emotion/model_4_eye_mouth/T&V-accuracy.png)
 ![](Recognition/Emotion/model_4_eye_mouth/T&V-loss.png)
+
+ with detected just eyes and mouth of the face and with less dataset than the orginal:
+![](Recognition/Emotion/model_4_eye_mouth_delete_not_detect_face/T&V-accuracy.png)
+![](Recognition/Emotion/model_4_eye_mouth_delete_not_detect_face/T&V-loss.png)
 ## result
 * Angry:
 ![](pictures_for_test/with_Emotion/Screenshot_An.png)
