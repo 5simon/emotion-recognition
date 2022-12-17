@@ -20,6 +20,10 @@ class Model:
 
     index_train_images = 28709
     index_validation_images = 7178
+
+    # this is for the last training, i deleted the images which coulde't be processed
+    #index_train_images = 20349
+    #index_validation_images = 5074
     epoches = 50
     batch_size = 64
     image_size = 48
