@@ -76,7 +76,7 @@ not_done_dlib,done_dlib= with_dlib("Pics_for_test/*")
 
 
 
-X = ["DLIB", "CASCADE"]
+X = ["Landmarks", "Viola&jones"]
 done = [done_dlib, done_cascade]
 not_done = [not_done_dlib, not_done_cascade]
 
