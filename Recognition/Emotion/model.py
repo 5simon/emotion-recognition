@@ -101,25 +101,27 @@ class Model:
         model = tf.keras.Sequential()
 
         # relu = f(x) = max(0,x)
-        model.add(tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(image_size, image_size, 1)))
-        model.add(tf.keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu'))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
-        model.add(tf.keras.layers.Dropout(0.25))
+        model.add(tf.keras.layers.Conv2D(32, kernel_size=(5, 5), activation='relu', input_shape=(image_size, image_size, 1)))  # 48 x 48
+        model.add(tf.keras.layers.Conv2D(64, kernel_size=(5, 5), activation='relu')) # 48 x 48
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 48 x 48
+        model.add(tf.keras.layers.Dropout(0.25)) # 24 x 24
 
-        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu'))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
-        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu'))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
-        model.add(tf.keras.layers.Dropout(0.25))
+        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu')) # 24 x 24
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 24 x 24
+        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu'))  # 12 x 12
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 12 x 12
+        model.add(tf.keras.layers.Dropout(0.25)) # 6x 6
 
         # new layers
-        model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), activation="relu"))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
-        model.add(tf.keras.layers.Dropout(0.25))
+        model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), activation="relu")) # 6 x 6
+        # model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 6 x 6
+        model.add(tf.keras.layers.Dropout(0.25)) # 3 x 3
 
-        model.add(tf.keras.layers.Flatten())
-        model.add(tf.keras.layers.Dense(1024, activation='relu'))
-        model.add(tf.keras.layers.Dropout(0.5))
+        model.add(tf.keras.layers.Flatten()) # 3 x 3
+        # model.add(tf.keras.layers.Dense(1024, activation='relu')) # 9
+        model.add(tf.keras.layers.Dense(512, activation='relu')) # 9
+        # model.add(tf.keras.layers.Dropout(0.5)) # 9
+        model.add(tf.keras.layers.Dropout(0.25)) # 9
         model.add(tf.keras.layers.Dense(7, activation='softmax'))
 
         model.summary()
