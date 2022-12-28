@@ -21,7 +21,7 @@ class Model:
     index_train_images = 28709
     index_validation_images = 7178
 
-    # this is for the last training, i deleted the images which coulde't be processed
+    # this is for the last training, I deleted the images which coulde't be processed
     #index_train_images = 20349
     #index_validation_images = 5074
     epoches = 50
@@ -29,7 +29,7 @@ class Model:
     image_size = 48
     file_name_train = "/home/simon/BA/data_face/train"
     file_name_test = "/home/simon/BA/data_face/test"
-    def __init__(self, index_train_images=28709, index_validation_images=7178, epoches=50, batch_size=64, image_size=48):
+    def __init__(self, index_train_images=28709, index_validatiyon_images=7178, epoches=50, batch_size=64, image_size=48):
         self.index_train_images = index_train_images
         self.index_validation_images = index_validation_images
         self.epoches = epoches
