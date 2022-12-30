@@ -8,7 +8,7 @@ Happy coding :grin:
   * ``` pip install tensorflow ``` 
 * [OpenCv](https://docs.opencv.org/3.4/index.html)
   * ``` pip install opencv-python ``` 
-* [first dataset:  FER-2013](https://www.kaggle.com/datasets/msambare/fer2013?select=train)
+* [dataset:  FER-2013](https://www.kaggle.com/datasets/msambare/fer2013?select=train)
 
 
 # Run App
