@@ -1,0 +1,46 @@
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 44, 44, 32)        832       
+                                                                 
+ conv2d_1 (Conv2D)           (None, 40, 40, 64)        51264     
+                                                                 
+ max_pooling2d (MaxPooling2D  (None, 20, 20, 64)       0         
+ )                                                               
+                                                                 
+ dropout (Dropout)           (None, 20, 20, 64)        0         
+                                                                 
+ conv2d_2 (Conv2D)           (None, 18, 18, 128)       73856     
+                                                                 
+ max_pooling2d_1 (MaxPooling  (None, 9, 9, 128)        0         
+ 2D)                                                             
+                                                                 
+ conv2d_3 (Conv2D)           (None, 7, 7, 128)         147584    
+                                                                 
+ max_pooling2d_2 (MaxPooling  (None, 3, 3, 128)        0         
+ 2D)                                                             
+                                                                 
+ dropout_1 (Dropout)         (None, 3, 3, 128)         0         
+                                                                 
+ conv2d_4 (Conv2D)           (None, 1, 1, 256)         295168    
+                                                                 
+ dropout_2 (Dropout)         (None, 1, 1, 256)         0         
+                                                                 
+ flatten (Flatten)           (None, 256)               0         
+                                                                 
+ dense (Dense)               (None, 512)               131584    
+                                                                 
+ dropout_3 (Dropout)         (None, 512)               0         
+                                                                 
+ dense_1 (Dense)             (None, 7)                 3591      
+                                                                 
+=================================================================
+Total params: 703,879
+Trainable params: 703,879
+Non-trainable params: 0
+_________________________________________________________________
+
+448/448 [==============================] - 309s 689ms/step - loss: 0.3681 - accuracy: 0.8649 - val_loss: 1.3756 - val_accuracy: 0.6048
+dict_keys(['loss', 'accuracy', 'val_loss', 'val_accuracy'])
+
