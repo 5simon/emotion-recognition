@@ -3,7 +3,12 @@ import dlib
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--image", type=str, help="test methode by image")
+parser.add_argument("-c", "--compare", type=str, help="compare between the tow methods")
+mode = parser.parse_args()
 
 def with_dlib(path):
     p = "/home/simon/BA/emotion-recognition/shape_predictor_68_face_landmarks.dat"
@@ -70,29 +75,79 @@ def with_cascade(path):
         # cv2.waitKey(0)
     return image_index_1, image_index_2
 
-not_done_cascade,done_cascade = with_cascade("Pics_for_test/*")
 
-not_done_dlib,done_dlib= with_dlib("Pics_for_test/*")
+def process_single_image(image):
+    img = cv2.imread(image)
+    image_resized = cv2.resize(img, (512, 512))
+    gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
+
+    face_cascade = cv2.CascadeClassifier(
+        '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_frontalface_default.xml')
+    eye_cascade = cv2.CascadeClassifier(
+        '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_eye_tree_eyeglasses.xml')
+    mouth_cascade = cv2.CascadeClassifier(
+        '/home/simon/BA/emotion-recognition/venv/lib/python3.10/site-packages/cv2/data/haarcascade_mouth.xml')
+
+    face_detect = face_cascade.detectMultiScale(
+        gray,
+        scaleFactor=1.3,
+        minNeighbors=5,
+        minSize=(30, 30),
+    )
+    eye_detect = eye_cascade.detectMultiScale(
+        gray,
+        scaleFactor=1.1,
+        minNeighbors=5,
+        minSize=(30, 30),
+    )
+    mouth_detect = mouth_cascade.detectMultiScale(
+        gray,
+        scaleFactor=3,
+        minNeighbors=5,
+        minSize=(30, 30),
+    )
+    for (x, y, w, h) in face_detect:
+        cv2.rectangle(image_resized, (int(x), int(y - 50)),
+                      (int(x) + int(w), int(y) + int(h + 10)), (0, 255, 0), 4)
+    for (x, y, w, h) in eye_detect:
+        # red
+        cv2.rectangle(image_resized, (int(x), int(y)),
+                      (int(x) + int(w), int(y) + int(h)), (0, 0, 255), 4)
+    for (x, y, w, h) in mouth_detect:
+        # blue
+        cv2.rectangle(image_resized, (int(x), int(y)),
+                      (int(x) + int(w), int(y) + int(h)), (255, 0, 0), 4)
+    cv2.imshow("test cascade", image_resized)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+if mode.image:
+    process_single_image(image=mode.image)
+
+if mode.compare:
+    not_done_cascade,done_cascade = with_cascade("Pics_for_test/*")
+
+    not_done_dlib,done_dlib= with_dlib("Pics_for_test/*")
 
 
 
-X = ["Landmarks", "Viola&jones"]
-done = [done_dlib, done_cascade]
-not_done = [not_done_dlib, not_done_cascade]
+    X = ["Landmarks", "Viola&jones"]
+    done = [done_dlib, done_cascade]
+    not_done = [not_done_dlib, not_done_cascade]
 
-X_axis = np.arange(len(X))
+    X_axis = np.arange(len(X))
 
-plt.bar(X_axis - 0.2, done, 0.4, label='bearbeitet')
-plt.bar(X_axis + 0.2, not_done, 0.4, label='nicht bearbeitet')
+    plt.bar(X_axis - 0.2, done, 0.4, label='bearbeitet')
+    plt.bar(X_axis + 0.2, not_done, 0.4, label='nicht bearbeitet')
 
-plt.xticks(X_axis, X)
-plt.xlabel("Methoden")
-plt.ylabel("Bilder")
-plt.legend()
-plt.show()
+    plt.xticks(X_axis, X)
+    plt.xlabel("Methoden")
+    plt.ylabel("Bilder")
+    plt.legend()
+    plt.show()
 
-# No-DLIB:  17
-# Yes-DLIB:  83
+    # No-DLIB:  17
+    # Yes-DLIB:  83
 
-# No-Cascade:  62
-# Yes-Cascade:  38
+    # No-Cascade:  62
+    # Yes-Cascade:  38
