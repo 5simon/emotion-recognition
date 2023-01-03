@@ -24,14 +24,29 @@ Happy coding :grin:
 
       rm -rf ./logs/
       tensorboard --logdir logs/fit
-  
+
 * clean: ``` py3clean . ```
 
-# Implementation
-* just call [*saveImageFromCamera()*](Recognition/face/camera.py) in *main.py* from class *Camera*
-* [Load dataset](Recognition/Emotion/help_functions.py)
-  * **Train**: by calling *load_dataset("Recognition/archive/train/")* 
-  * **Test**: by calling *load_dataset("Recognition/archive/test/")*
+# Comparsion
+                               just to prove some Ideas 
+* to compare between viola&jones methode and using of dlib to recognize face
+        
+      cd Recognition/compare
+      python3 compare.py -c compare
+* to test the functionality of viola&jones to recognize eyes and mouth in an image
+  
+      cd Recognition/compare
+      python3 compare.py -i "image_path"
+
+[//]: # (# Implementation)
+
+[//]: # (* just call [*saveImageFromCamera&#40;&#41;*]&#40;Recognition/face/camera.py&#41; in *main.py* from class *Camera*)
+
+[//]: # (* [Load dataset]&#40;Recognition/Emotion/help_functions.py&#41;)
+
+[//]: # (  * **Train**: by calling *load_dataset&#40;"Recognition/archive/train/"&#41;* )
+
+[//]: # (  * **Test**: by calling *load_dataset&#40;"Recognition/archive/test/"&#41;*)
 
 # Preprocessing
 * to detect face and to build a black mask around it
