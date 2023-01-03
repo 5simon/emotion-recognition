@@ -28,7 +28,6 @@ Happy coding :grin:
 * clean: ``` py3clean . ```
 
 # Comparsion
-                               just to prove some Ideas 
 * to compare between viola&jones methode and using of dlib to recognize face
         
       cd Recognition/compare
