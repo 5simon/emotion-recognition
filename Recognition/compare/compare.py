@@ -137,8 +137,8 @@ if mode.compare:
 
     X_axis = np.arange(len(X))
 
-    plt.bar(X_axis - 0.2, done, 0.4, label='bearbeitet')
-    plt.bar(X_axis + 0.2, not_done, 0.4, label='nicht bearbeitet')
+    plt.bar(X_axis - 0.2, done, 0.4, label='Verarbeitet')
+    plt.bar(X_axis + 0.2, not_done, 0.4, label='nicht Verarbeitet')
 
     plt.xticks(X_axis, X)
     plt.xlabel("Methoden")
