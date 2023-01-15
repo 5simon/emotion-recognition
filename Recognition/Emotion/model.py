@@ -24,7 +24,7 @@ class Model:
     # this is for the last training, I deleted the images which coulde't be processed
     # index_train_images = 20349
     # index_validation_images = 5074
-    epoches = 50
+    epoches = 100
     batch_size = 64
     image_size = 48
     file_name_train = "/home/simon/BA/data_face/train"
@@ -97,32 +97,34 @@ class Model:
         image_size = self.image_size
         epoches = self.epoches
         index_validation_images = self.index_validation_images
+        l1_reg = tf.keras.regularizers.L1(l1=0.01)
         # create Model
         model = tf.keras.Sequential()
 
         # relu = f(x) = max(0,x)
-        model.add(tf.keras.layers.Conv2D(32, kernel_size=(5, 5), activation='relu', input_shape=(image_size, image_size, 1)))  # 48 x 48
-        model.add(tf.keras.layers.Conv2D(64, kernel_size=(5, 5), activation='relu')) # 48 x 48
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 48 x 48
-        model.add(tf.keras.layers.Dropout(0.25)) # 24 x 24
+        model.add(tf.keras.layers.Conv2D(32, kernel_size=(5, 5), activation='relu', kernel_regularizer=l1_reg, input_shape=(image_size, image_size, 1)))
+        model.add(tf.keras.layers.Conv2D(64, kernel_size=(5, 5), kernel_regularizer=l1_reg, activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+        model.add(tf.keras.layers.Dropout(0.25))
 
-        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu')) # 24 x 24
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 24 x 24
-        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu'))  # 12 x 12
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 12 x 12
+        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), kernel_regularizer=l1_reg ,activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), kernel_regularizer=l1_reg ,activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25)) # 6x 6
 
         # new layers
-        model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), activation="relu")) # 6 x 6
-        # model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 6 x 6
-        model.add(tf.keras.layers.Dropout(0.25)) # 3 x 3
+        # model.add(tf.keras.layers.Conv2D(256, kernel_size=(3, 3), kernel_regularizer=l1_reg, activation="relu")) # 6 x 6
+        # # model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2))) # 6 x 6
+        # model.add(tf.keras.layers.Dropout(0.25)) # 3 x 3
 
-        model.add(tf.keras.layers.Flatten()) # 3 x 3
-        # model.add(tf.keras.layers.Dense(1024, activation='relu')) # 9
-        model.add(tf.keras.layers.Dense(512, activation='relu')) # 9
-        # model.add(tf.keras.layers.Dropout(0.5)) # 9
-        model.add(tf.keras.layers.Dropout(0.25)) # 9
-        model.add(tf.keras.layers.Dense(7, activation='softmax'))
+        model.add(tf.keras.layers.Flatten())
+        # model.add(tf.keras.layers.Dense(1024, activation='relu'))
+        # model.add(tf.keras.layers.Dense(512, activation='relu'))
+        model.add(tf.keras.layers.Dense(256, activation='relu'))
+        # model.add(tf.keras.layers.Dropout(0.5))
+        model.add(tf.keras.layers.Dropout(0.25))
+        model.add(tf.keras.layers.Dense(7, kernel_regularizer=l1_reg, activation='softmax'))
 
         model.summary()
 

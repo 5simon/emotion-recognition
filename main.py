@@ -16,8 +16,8 @@ mode = parser.parse_args()
 if __name__ == "__main__":
     if mode.testCam:
         camera_window = Camera(which_camera=2,
-                               filename_json="Recognition/Emotion/NEW_MODEL_FACE_MASKE/model.json",
-                               filename_h5="Recognition/Emotion/NEW_MODEL_FACE_MASKE/model.h5")
+                               filename_json="Recognition/Emotion/model_C/stra._2/model.json",
+                               filename_h5="Recognition/Emotion/model_C/stra._2/model.h5")
         camera_window.open_camera()
     if mode.path:
         # camera_window.determine_emotion_by_image(frame_path="pictures_for_test/natural.jpg", size=0)
