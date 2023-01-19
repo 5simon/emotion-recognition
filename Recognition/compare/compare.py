@@ -125,9 +125,9 @@ if mode.image:
     process_single_image(image=mode.image)
 
 if mode.compare:
-    not_done_cascade,done_cascade = with_cascade("../../../archive/train/happy/*")
+    not_done_cascade,done_cascade = with_cascade("../../../bilderzumTesten/*")
 
-    not_done_dlib,done_dlib= with_dlib("../../../archive/train/happy/*")
+    not_done_dlib,done_dlib= with_dlib("../../../bilderzumTesten/*")
 
 
 
@@ -159,5 +159,16 @@ if mode.compare:
 
     # No - Cascade: 4318
     # Yes - Cascade: 2897
+
+    # with 34356
+    # No - Cascade: 22628
+    # Yes - Cascade: 11728
+
+    # Yes - DLIB: 24257
+    # No - DLIB: 10099
+
+
+
+
 
 
