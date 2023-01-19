@@ -12,7 +12,7 @@ class Camera:
     """
         variables
     """
-    which_camera = 0
+    which_camera = 2
     capture = cv2.VideoCapture(which_camera)  # 0 for laptop, 2 for external camera
     check_camera = capture.isOpened()
     frame = []

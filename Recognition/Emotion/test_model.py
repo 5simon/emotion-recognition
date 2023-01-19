@@ -46,7 +46,7 @@ class TestModel:
 
             cropped_img = np.expand_dims(np.expand_dims(resize_images(roi_gray_frame, image_size), -1), 0)
 
-            emotion_prediction = emotion_model.predict(cropped_img)
+            emotion_prediction = emotion_model.predict(cropped_img) * 100
             max_index = int(np.argmax(emotion_prediction))
             prediction_in_percent = str(("%.2f" % emotion_prediction[0][max_index]))
             cv2.putText(frame, self.emotion_classes[max_index] + ": " + prediction_in_percent + "%", (int(x+5), int(y-20)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)

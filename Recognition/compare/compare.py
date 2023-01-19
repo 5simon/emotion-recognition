@@ -28,10 +28,10 @@ def with_dlib(path):
 
 
         if not rects:
-            print("No face")
+            # print("No face")
             image_index_1 = image_index_1 + 1
         else:
-            print("face")
+            # print("face")
 
             image_index_2 = image_index_2 + 1
 
@@ -63,11 +63,11 @@ def with_cascade(path):
                           (int(x) + int(w), int(y) + int(h + 10)), (0, 255, 0), 4)
 
         if face_detect == ():
-            print("no face")
+            # print("no face")
             image_index_1 = image_index_1 + 1
 
         else:
-            print("face")
+            # print("face")
             image_index_2 = image_index_2 + 1
     print("No-Cascade: ", image_index_1)
     print("Yes-Cascade: ", image_index_2)
@@ -125,9 +125,9 @@ if mode.image:
     process_single_image(image=mode.image)
 
 if mode.compare:
-    not_done_cascade,done_cascade = with_cascade("Pics_for_test/*")
+    not_done_cascade,done_cascade = with_cascade("../../../archive/train/happy/*")
 
-    not_done_dlib,done_dlib= with_dlib("Pics_for_test/*")
+    not_done_dlib,done_dlib= with_dlib("../../../archive/train/happy/*")
 
 
 
@@ -146,8 +146,18 @@ if mode.compare:
     plt.legend()
     plt.show()
 
+    # with 100 Pics
     # No-DLIB:  17
     # Yes-DLIB:  83
 
     # No-Cascade:  62
     # Yes-Cascade:  38
+
+    # with Happy Pics (7215)
+    # No - DLIB: 1526
+    # Yes - DLIB: 5689
+
+    # No - Cascade: 4318
+    # Yes - Cascade: 2897
+
+

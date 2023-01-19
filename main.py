@@ -18,7 +18,7 @@ if __name__ == "__main__":
         camera_window = Camera(which_camera=2,
                                filename_json="Recognition/Emotion/model_C/stra._2/model.json",
                                filename_h5="Recognition/Emotion/model_C/stra._2/model.h5")
-        camera_window.open_camera()
+        camera_window.open_camera(True)
     if mode.path:
         # camera_window.determine_emotion_by_image(frame_path="pictures_for_test/natural.jpg", size=0)
         camera_window = Camera(which_camera=2,
