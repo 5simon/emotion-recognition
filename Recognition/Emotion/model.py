@@ -18,8 +18,11 @@ from scipy.ndimage import label
 
 class Model:
 
-    index_train_images = 28709
-    index_validation_images = 7178
+    # index_train_images = 28709
+    # index_validation_images = 7178
+
+    index_train_images = 51236
+    index_validation_images = 14645
 
     # this is for the last training, I deleted the images which coulde't be processed
     # index_train_images = 20349
@@ -27,9 +30,9 @@ class Model:
     epoches = 100
     batch_size = 64
     image_size = 48
-    file_name_train = "/home/simon/BA/data_face/train"
-    file_name_test = "/home/simon/BA/data_face/test"
-    def __init__(self, index_train_images=28709, index_validatiyon_images=7178, epoches=50, batch_size=64, image_size=48):
+    file_name_train = "/home/simon/BA/Face_detect_dataset/train"
+    file_name_test = "/home/simon/BA/Face_detect_dataset/test"
+    def __init__(self, index_train_images=51236, index_validatiyon_images=14645, epoches=50, batch_size=64, image_size=48):
         self.index_train_images = index_train_images
         self.index_validation_images = index_validatiyon_images
         self.epoches = epoches
@@ -103,13 +106,13 @@ class Model:
 
         # relu = f(x) = max(0,x)
         model.add(tf.keras.layers.Conv2D(32, kernel_size=(5, 5), activation='relu', kernel_regularizer=l1_reg, input_shape=(image_size, image_size, 1)))
-        model.add(tf.keras.layers.Conv2D(64, kernel_size=(5, 5), kernel_regularizer=l1_reg, activation='relu'))
+        model.add(tf.keras.layers.Conv2D(64, kernel_size=(5, 5),  activation='relu'))
         model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25))
 
         model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), kernel_regularizer=l1_reg ,activation='relu'))
         model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
-        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3), kernel_regularizer=l1_reg ,activation='relu'))
+        model.add(tf.keras.layers.Conv2D(128, kernel_size=(3, 3) ,activation='relu'))
         model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
         model.add(tf.keras.layers.Dropout(0.25)) # 6x 6
 
@@ -130,7 +133,7 @@ class Model:
 
         model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001, decay=1e-6), metrics=['accuracy'])
 
-        log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        log_dir = "logs_new_dataset/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
         model_info = model.fit_generator(
