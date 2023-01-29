@@ -15,9 +15,9 @@ mode = parser.parse_args()
 
 if __name__ == "__main__":
     if mode.testCam:
-        camera_window = Camera(which_camera=2,
-                               filename_json="Recognition/Emotion/model_C/stra._2/model.json",
-                               filename_h5="Recognition/Emotion/model_C/stra._2/model.h5")
+        camera_window = Camera(which_camera=0,
+                               filename_json="Recognition/Emotion/model_D/new_modell/face/model.json",
+                               filename_h5="Recognition/Emotion/model_D/new_modell/face/model.h5")
         camera_window.open_camera(True)
     if mode.path:
         # camera_window.determine_emotion_by_image(frame_path="pictures_for_test/natural.jpg", size=0)
@@ -26,5 +26,5 @@ if __name__ == "__main__":
                                filename_h5="Recognition/Emotion/model_4_face_re_all_pics/model.h5")
         camera_window.determine_emotion_by_image(frame_path=mode.path, size=0)
     if mode.train:
-        model1 = Model(epoches=100)
-        model1.save_model_info()
+        model1 = Model(epoches=75)
+        model1.save_model_info(which_model=mode.train)
