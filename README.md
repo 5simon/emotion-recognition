@@ -1,7 +1,6 @@
 # Examination of Several Neural Networks for Facial Emotion Recognition
-this project is a bachelor thesis in  **TU Bergakademie Freiberg**. in this project emotions will be recognized through facial expression.
+this project is a bachelor thesis in  **TU Bergakademie Freiberg**. In this project, different CNN models for emotion recognition based on facial features are investigated..
 
-Happy coding :grin:
 
 # Tools
 * [Tesnorflow](https://www.tensorflow.org/)  
@@ -19,10 +18,13 @@ Happy coding :grin:
 
 * to testing by webcam:  `python3 main.py -t testCam`
 * to testing by image:  `python3 main.py -i "image_path"`
-* to training: `python3 main.py -l train `
-* tensorBoard: after training run following commands
+* to training: 
+  * first model: `python3 main.py -l model_1 `
+  * second model: `python3 main.py -l model_2 `
+  * third model: `python3 main.py -l model_3 `
+* tensorBoard: after or while training run following commands in another tab
 
-      rm -rf ./logs/
+      rm -rf ./logs/ # or change the name 
       tensorboard --logdir logs/fit
 
 * clean: ``` py3clean . ```
@@ -61,7 +63,6 @@ Happy coding :grin:
   ```
 
 # Screenshots
-## APP
 ### without preprocessing:
 ![](Recognition/Emotion/model_2/T&V-accuracy.png)
 ![](Recognition/Emotion/model_2/T&V-loss.png)
