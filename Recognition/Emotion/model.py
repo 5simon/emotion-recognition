@@ -18,11 +18,12 @@ from scipy.ndimage import label
 
 class Model:
 
-    # index_train_images = 28709
-    # index_validation_images = 7178
+    index_train_images = 28709
+    index_validation_images = 7178
 
-    index_train_images = 51236
-    index_validation_images = 14645
+    # it was just a try, but it failed
+    # index_train_images = 51236
+    # index_validation_images = 14645
 
     # this is for the last training, I deleted the images which coulde't be processed
     # index_train_images = 20349
