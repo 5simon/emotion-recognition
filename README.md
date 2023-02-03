@@ -18,10 +18,23 @@ this project is a bachelor thesis in  **TU Bergakademie Freiberg**. In this proj
 
 * to testing by webcam:  `python3 main.py -t testCam`
 * to testing by image:  `python3 main.py -i "image_path"`
-* to training: 
-  * first model: `python3 main.py -l model_1 `
-  * second model: `python3 main.py -l model_2 `
-  * third model: `python3 main.py -l model_3 `
+* to training:
+
+
+  * first model:
+    * strategy 1: `python3 main.py -l model_1 strategy_1 `
+    * strategy 2: `python3 main.py -l model_1 strategy_2 `
+    * strategy 2: `python3 main.py -l model_1 strategy_3 `
+
+  * second model:
+    * strategy 1: `python3 main.py -l model_2 strategy_1 `
+    * strategy 2: `python3 main.py -l model_2 strategy_2 `
+    * strategy 3: `python3 main.py -l model_2 strategy_3 `
+
+  * third model:
+    * strategy 1: `python3 main.py -l model_3 strategy_1`
+    * strategy 2: `python3 main.py -l model_3 strategy_2`
+    * strategy 3: `python3 main.py -l model_3 strategy_3`
 * tensorBoard: after or while training run following commands in another tab
 
       rm -rf ./logs/ # or change the name 

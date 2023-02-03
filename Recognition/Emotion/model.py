@@ -31,8 +31,8 @@ class Model:
     epoches = 75
     batch_size = 64
     image_size = 48
-    file_name_train = "/home/simon/BA/Face_detect_dataset/train"
-    file_name_test = "/home/simon/BA/Face_detect_dataset/test"
+    file_name_train = ""
+    file_name_test = ""
     def __init__(self, index_train_images=51236, index_validatiyon_images=14645, epoches=75, batch_size=64, image_size=48):
         self.index_train_images = index_train_images
         self.index_validation_images = index_validatiyon_images
@@ -129,8 +129,8 @@ class Model:
 
         model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001, decay=1e-6), metrics=['accuracy'])
 
-        log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+        # log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        # tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
         model_info = model.fit_generator(
             train_generator,
@@ -138,7 +138,7 @@ class Model:
             epochs=epoches,
             validation_data=validation_generator,
             validation_steps=index_validation_images // batch_size,
-            callbacks=[tensorboard_callback]
+            # callbacks=[tensorboard_callback]
         )
         print(model_info.history.keys())
         self.plot_model_history(model_info)
@@ -242,14 +242,22 @@ class Model:
         return model
 
 #save infos
-    def save_model_info(self, which_model):
+    def save_model_info(self, which_model, which_strategy):
+        if which_strategy == "strategy_1":
+            self.file_name_train = "/home/simon/BA/oldDataset/str_1/train"
+            self.file_name_test = "/home/simon/BA/oldDataset/str_1/test"
+        if which_strategy == "strategy_2":
+            self.file_name_train = "/home/simon/BA/oldDataset/str_2/train"
+            self.file_name_test = "/home/simon/BA/oldDataset/str_2/test"
+        if which_strategy == "strategy_3":
+            self.file_name_train = "/home/simon/BA/oldDataset/str_3/train"
+            self.file_name_test = "/home/simon/BA/oldDataset/str_3/test"
         model_1 = self.create_model_1()
         model_2 = self.create_model_2()
         model_3 = self.create_model_3()
 
         # save model structure in jason file
         if which_model == "model_1":
-
             save_model = model_1.to_json()
             with open("model.json", "w") as json_file:
                 json_file.write(save_model)

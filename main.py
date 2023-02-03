@@ -10,7 +10,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--testCam", type=str, help="test model by webcam")
 parser.add_argument("-i", "--path", type=str, help="test model by image")
-parser.add_argument("-l", "--train", type=str, help="train model")
+parser.add_argument("-l", "--train", type=str,  nargs='+',help="train model")
 mode = parser.parse_args()
 
 if __name__ == "__main__":
@@ -27,4 +27,4 @@ if __name__ == "__main__":
         camera_window.determine_emotion_by_image(frame_path=mode.path, size=0)
     if mode.train:
         model1 = Model(epoches=75)
-        model1.save_model_info(which_model=mode.train)
+        model1.save_model_info(which_model=mode.train[0], which_strategy=mode.train[1])
