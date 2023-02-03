@@ -15,12 +15,36 @@ this project is a bachelor thesis in  **TU Bergakademie Freiberg**. In this proj
 
       -t TEST, --test TEST      test model
       -l TRAIN, --train TRAIN   train model
-
-* to testing by webcam:  `python3 main.py -t testCam`
+---
+* to testing by webcam
+  * with first Model:
+    * strategy 1: `python3 main.py -t M1S1`
+    * strategy 2: `python3 main.py -t M1S2`
+    * strategy 3: `python3 main.py -t M1S3`
+  * with second Model:
+    * strategy 1: `python3 main.py -t M2S1`
+    * strategy 2: `python3 main.py -t M2S2`
+    * strategy 3: `python3 main.py -t M2S3`
+  * with third Model:
+    * strategy 1: `python3 main.py -t M3S1`
+    * strategy 2: `python3 main.py -t M3S2`
+    * strategy 3: `python3 main.py -t M3S3`
+---
 * to testing by image:  `python3 main.py -i "image_path"`
+  * with first Model:
+    * strategy 1: `python3 main.py -i "image_path" M1S1`
+    * strategy 2: `python3 main.py -i "image_path" M1S2`
+    * strategy 3: `python3 main.py -i "image_path" M1S3`
+  * with second Model:
+    * strategy 1: `python3 main.py -i "image_path" M2S1`
+    * strategy 2: `python3 main.py -i "image_path" M2S2`
+    * strategy 3: `python3 main.py -i "image_path" M2S3`
+  * with third Model:
+    * strategy 1: `python3 main.py -i "image_path" M3S1`
+    * strategy 2: `python3 main.py -i "image_path" M3S2`
+    * strategy 3: `python3 main.py -i "image_path" M3S3`
+---
 * to training:
-
-
   * first model:
     * strategy 1: `python3 main.py -l model_1 strategy_1 `
     * strategy 2: `python3 main.py -l model_1 strategy_2 `
@@ -35,6 +59,7 @@ this project is a bachelor thesis in  **TU Bergakademie Freiberg**. In this proj
     * strategy 1: `python3 main.py -l model_3 strategy_1`
     * strategy 2: `python3 main.py -l model_3 strategy_2`
     * strategy 3: `python3 main.py -l model_3 strategy_3`
+---
 * tensorBoard: after or while training run following commands in another tab
 
       rm -rf ./logs/ # or change the name 
