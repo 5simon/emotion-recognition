@@ -18,12 +18,12 @@ from scipy.ndimage import label
 
 class Model:
 
-    index_train_images = 28709
-    index_validation_images = 7178
+    # index_train_images = 28709
+    # index_validation_images = 7178
 
     # it was just a try, but it failed
-    # index_train_images = 51236
-    # index_validation_images = 14645
+    index_train_images = 51236
+    index_validation_images = 14645
 
     # this is for the last training, I deleted the images which coulde't be processed
     # index_train_images = 20349
@@ -220,7 +220,7 @@ class Model:
         model.add(tf.keras.layers.Flatten())
         model.add(tf.keras.layers.Dense(256, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.25))
-        model.add(tf.keras.layers.Dense(256, activation='relu'))
+        model.add(tf.keras.layers.Dense(7, activation='softmax'))
 
         model.summary()
 
@@ -241,7 +241,53 @@ class Model:
         self.plot_model_history(model_info)
         return model
 
-#save infos
+    def create_model_4(self):
+        train_generator, validation_generator = self.data_generate()
+        index_train_images = self.index_train_images
+        batch_size = self.batch_size
+        image_size = self.image_size
+        epoches = self.epoches
+        index_validation_images = self.index_validation_images
+        l1_reg = tf.keras.regularizers.L1(l1=0.01)
+        # create Model
+        model = tf.keras.Sequential()
+
+        # relu = f(x) = max(0,x)
+        model.add(tf.keras.layers.Conv2D(6, kernel_size=(5, 5), activation='relu', kernel_regularizer=l1_reg, padding="same",
+                                         input_shape=(image_size, image_size, 1)))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+        model.add(tf.keras.layers.Conv2D(16, kernel_size=(5, 5), kernel_regularizer=l1_reg, activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+
+        model.add(tf.keras.layers.Conv2D(64, kernel_size=(3, 3),kernel_regularizer=l1_reg, activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+
+        model.add(tf.keras.layers.Flatten())
+        model.add(tf.keras.layers.Dense(128, activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.25))
+        model.add(tf.keras.layers.Dense(7, activation='softmax'))
+
+        model.summary()
+
+        model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.001, decay=1e-6),
+                      metrics=['accuracy'])
+
+        log_dir = "logs_model_4_NEW/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
+        model_info = model.fit_generator(
+            train_generator,
+            steps_per_epoch=index_train_images // batch_size,
+            epochs=epoches,
+            validation_data=validation_generator,
+            validation_steps=index_validation_images // batch_size,
+            callbacks=[tensorboard_callback]
+        )
+        print(model_info.history.keys())
+        self.plot_model_history(model_info)
+        return model
+
+    #save infos
     def save_model_info(self, which_model, which_strategy):
         if which_strategy == "strategy_1":
             self.file_name_train = "/home/simon/BA/oldDataset/str_1/train"
@@ -252,31 +298,51 @@ class Model:
         if which_strategy == "strategy_3":
             self.file_name_train = "/home/simon/BA/oldDataset/str_3/train"
             self.file_name_test = "/home/simon/BA/oldDataset/str_3/test"
-        model_1 = self.create_model_1()
-        model_2 = self.create_model_2()
-        model_3 = self.create_model_3()
+        if which_strategy == "S2Extra":
+            self.file_name_train = "/home/simon/BA/Face_detect_dataset/test"
+            self.file_name_test = "/home/simon/BA/Face_detect_dataset/train"
+
 
         # save model structure in jason file
         if which_model == "model_1":
+            model_1 = self.create_model_1()
             save_model = model_1.to_json()
             with open("model.json", "w") as json_file:
                 json_file.write(save_model)
 
             # save trained model weight in .h5 file
             model_1.save_weights("model.h5")
+        else:
+            print("not 1")
 
         if which_model == "model_2":
+            model_2 = self.create_model_2()
             save_model = model_2.to_json()
             with open("model.json", "w") as json_file:
                 json_file.write(save_model)
 
             # save trained model weight in .h5 file
             model_2.save_weights("model.h5")
+        else:
+            print("not 2")
 
         if which_model == "model_3":
+            model_3 = self.create_model_3()
             save_model = model_3.to_json()
             with open("model.json", "w") as json_file:
                 json_file.write(save_model)
 
             # save trained model weight in .h5 file
             model_3.save_weights("model.h5")
+        else:
+            print("not 3")
+        if which_model == "model_4":
+            model_4 = self.create_model_4()
+            save_model = model_4.to_json()
+            with open("model.json", "w") as json_file:
+                json_file.write(save_model)
+
+            # save trained model weight in .h5 file
+            model_4.save_weights("model.h5")
+        else:
+            print("not 4")

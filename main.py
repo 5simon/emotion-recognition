@@ -22,5 +22,8 @@ if __name__ == "__main__":
         camera_window = Camera(which_camera=2, which_data= mode.path[1])
         camera_window.determine_emotion_by_image(frame_path=mode.path[0], size=0)
     if mode.train:
-        model1 = Model(epoches=75)
+        print(mode.train[0])
+        print(mode.train[1])
+
+        model1 = Model(epoches=100)
         model1.save_model_info(which_model=mode.train[0], which_strategy=mode.train[1])
