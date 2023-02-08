@@ -13,8 +13,10 @@ The goal of this work is to develop and compare several different systems using 
 # Run App
 * help: `python3 main.py -h`
 
-      -t TEST, --test TEST      test model
-      -l TRAIN, --train TRAIN   train model
+      -t TESTCAM, --testCam TESTCAM                 test model by webcam
+      -i PATH [PATH ...], --path PATH [PATH ...]    test model by image
+      -l TRAIN [TRAIN ...], --train TRAIN [TRAIN ...]
+
 ---
 * to testing by webcam
   * with first Model:
