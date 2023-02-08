@@ -1,5 +1,5 @@
 # Examination of Several Neural Networks for Facial Emotion Recognition
-this project is a bachelor thesis in  **TU Bergakademie Freiberg**. In this project, different CNN models for emotion recognition based on facial features are investigated..
+The goal of this work is to develop and compare several different systems using neural networks for emotion recognition with different input strategies.
 
 
 # Tools
