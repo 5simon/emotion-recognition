@@ -18,8 +18,8 @@ from scipy.ndimage import label
 
 class Model:
 
-    # index_train_images = 28709
-    # index_validation_images = 7178
+    # self.index_train_images = 28709
+    # self.index_validation_images = 7178
 
     # it was just a try, but it failed
     index_train_images = 51236
@@ -292,16 +292,30 @@ class Model:
         if which_strategy == "strategy_1":
             self.file_name_train = "/home/simon/BA/oldDataset/str_1/train"
             self.file_name_test = "/home/simon/BA/oldDataset/str_1/test"
+            # index of images
+            self.index_train_images = 28709
+            self.index_validation_images = 7178
+
         if which_strategy == "strategy_2":
             self.file_name_train = "/home/simon/BA/oldDataset/str_2/train"
             self.file_name_test = "/home/simon/BA/oldDataset/str_2/test"
+
+            self.index_train_images = 28709
+            self.index_validation_images = 7178
+
         if which_strategy == "strategy_3":
             self.file_name_train = "/home/simon/BA/oldDataset/str_3/train"
             self.file_name_test = "/home/simon/BA/oldDataset/str_3/test"
+
+            self.index_train_images = 20349
+            self.index_validation_images = 5074
+
         if which_strategy == "S2Extra":
             self.file_name_train = "/home/simon/BA/Face_detect_dataset/test"
             self.file_name_test = "/home/simon/BA/Face_detect_dataset/train"
 
+            self.index_train_images = 51236
+            self.index_validation_images = 14645
 
         # save model structure in jason file
         if which_model == "model_1":

@@ -103,6 +103,7 @@ The goal of this work is to develop and compare several different systems using 
   ```
 
 # Screenshots
+these pictures were taken randomly from the internet 
 ## result
 * Angry:
 ![](pictures_for_test/with_Emotion/Screenshot_An.png)
