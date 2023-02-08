@@ -33,9 +33,7 @@ class Model:
     image_size = 48
     file_name_train = ""
     file_name_test = ""
-    def __init__(self, index_train_images=51236, index_validatiyon_images=14645, epoches=75, batch_size=64, image_size=48):
-        self.index_train_images = index_train_images
-        self.index_validation_images = index_validatiyon_images
+    def __init__(self, epoches=75, batch_size=64, image_size=48):
         self.epoches = epoches
         self.batch_size = batch_size
         self.image_size = image_size
