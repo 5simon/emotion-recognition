@@ -33,32 +33,32 @@ class Camera:
     filename_h5 = ""
     def __init__(self, which_camera, which_data):
         if which_data == "M1S1":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/stra._1/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/stra._1/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/str_1/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/str_1/model.h5"
         if which_data == "M1S2":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/stra._3/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/stra._2/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/str_3/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/str_2/model.h5"
         if which_data == "M1S2":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/stra._3/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/stra._3/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/str_3/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_A/str_3/model.h5"
         if which_data == "M2S1":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/stra._1/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/stra._1/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/str_1/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/str_1/model.h5"
         if which_data == "M2S2":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/stra._2/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/stra._2/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/str_2/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/str_2/model.h5"
         if which_data == "M2S3":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/stra._3/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/stra._3/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/str_3/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_B/str_3/model.h5"
         if which_data == "M3S1":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/stra._1/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/stra._1/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/str_1/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/str.1/model.h5"
         if which_data == "M3S2":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/stra._2/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/stra._2/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/str_2/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/str_2/model.h5"
         if which_data == "M3S3":
-            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/stra._3/model.json"
-            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/stra._3/model.h5"
+            self.filename_json = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/str_3/model.json"
+            self.filename_h5 = "/home/simon/BA/emotion-recognition/Recognition/Emotion/model_C/str_3/model.h5"
 
         self.which_camera = which_camera
         print(self.which_camera)
